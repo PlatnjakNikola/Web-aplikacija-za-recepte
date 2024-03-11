@@ -7,7 +7,7 @@ namespace Server.Repositories.Interface
         Task<Recipe> CreateAsync(RecipeCreateUpdateDTO recipeToCreateDTO);
         Task<List<Recipe>> GetAllAsync();
         Task<Recipe> GetByIdAsync(int Id);
-        Task<Recipe> UpdateRecipeAsync(int Id, RecipeCreateUpdateDTO updatedRecipeDTO);
-        Task<Recipe> DeleteRecipeAsync(int Id);
+        Task<Recipe> UpdateAsync(int Id, RecipeCreateUpdateDTO updatedRecipeDTO);
+        Task<Recipe> DeleteAsync(int Id);
     }
 }

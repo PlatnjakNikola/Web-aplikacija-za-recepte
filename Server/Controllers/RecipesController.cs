@@ -25,7 +25,7 @@ namespace Server.Controllers
 
             return Ok(allRecipes);
         }
-
+            
         [HttpGet]
         [Route("{Id}")]
         public async Task<IActionResult> GetRecipeById(int Id)
@@ -45,22 +45,10 @@ namespace Server.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRecipe(RecipeCreateUpdateDTO recipeToCreateDTO)
         {
-            
+
             Recipe createdRecipe = await recipeRepository.CreateAsync(recipeToCreateDTO);
 
-            var response = new Recipe
-            {
-                Id = createdRecipe.Id,
-                Title = createdRecipe.Title,
-                Ingredients = createdRecipe.Ingredients,
-                Description = createdRecipe.Description,
-                TimeToPrepare = createdRecipe.TimeToPrepare,
-                Type = createdRecipe.Type,
-                Image = createdRecipe.Image,
-                Enabled = createdRecipe.Enabled
-            };
-
-            return Ok(response);
+            return Ok(createdRecipe);
 
         }
 
@@ -69,7 +57,7 @@ namespace Server.Controllers
         public async Task<IActionResult> UpdateRecipe(int Id, RecipeCreateUpdateDTO updatedRecipeDTO)
         {
 
-            Recipe? updatedRecipe = await recipeRepository.UpdateRecipeAsync(Id, updatedRecipeDTO);
+            Recipe? updatedRecipe = await recipeRepository.UpdateAsync(Id, updatedRecipeDTO);
 
             if (updatedRecipe != null) 
             {
@@ -85,7 +73,7 @@ namespace Server.Controllers
         [Route("{Id}")]
         public async Task<IActionResult> DeleteRecipe(int Id)
         {
-            Recipe? recipeToDelete = await recipeRepository.DeleteRecipeAsync(Id);
+            Recipe? recipeToDelete = await recipeRepository.DeleteAsync(Id);
 
             if (recipeToDelete != null)
             {

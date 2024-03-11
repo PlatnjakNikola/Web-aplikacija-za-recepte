@@ -23,6 +23,7 @@ builder.Services.AddDbContext<AppDbContext>(dbContextOptionsBuilder =>
     dbContextOptionsBuilder.UseSqlite(builder.Configuration["ConnectionStrings:DefaultConnection"]));
 
 builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 

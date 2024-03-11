@@ -49,7 +49,7 @@ namespace Server.Repositories.Implementation
             return recipe;
         }
 
-        public async Task<Recipe> UpdateRecipeAsync(int Id, RecipeCreateUpdateDTO updatedRecipeDTO)
+        public async Task<Recipe> UpdateAsync(int Id, RecipeCreateUpdateDTO updatedRecipeDTO)
         {
             Recipe? recipeToUpdate = await appDbContext.Recipes.FindAsync(Id);
 
@@ -80,7 +80,7 @@ namespace Server.Repositories.Implementation
             }
         }
 
-        public async Task<Recipe> DeleteRecipeAsync(int Id)
+        public async Task<Recipe> DeleteAsync(int Id)
         {
             Recipe? recipeToDelete = await appDbContext.Recipes.FindAsync(Id);
 
