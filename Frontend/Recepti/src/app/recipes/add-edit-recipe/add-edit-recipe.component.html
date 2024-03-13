@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="input">
+    <label for="recipeName" class="form-label">Recipe: </label>
+    <input type="text" class="form-control" id="recipeName" name="recipeName" [(ngModel)]="recipe.title" />
+  </div>
+  <div class="input">
+    <label for="time" class="form-label">Time (in minutes): </label>
+    <input type="number" class="form-control" style="width: 100px" id="time" name="time" [(ngModel)]="recipe.timeToPrepare" />
+  </div>
+  <div class="input">
+    <label for="ingredients" class="form-label">Ingredients: </label>
+    <div *ngFor="let ingredient of recipe.ingredients; let i = index">
+      <input type="text" class="form-control" id="recipeName" name="recipeName" [(ngModel)]="recipe.ingredients[i]"/>
+    </div>
+  </div>
+  <button class="btn btn-outline-primary me-2 mb-1">Add Ingredient</button>
+
+  <div class="input">
+    <label for="procedure" class="form-label">Description: </label>
+    <textarea class="form-control" id="floatingTextarea2" style="height: 300px" [(ngModel)]="recipe.description"></textarea>
+  </div>
+</div>
+  
+
