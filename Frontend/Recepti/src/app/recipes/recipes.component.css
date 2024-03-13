@@ -1,0 +1,16 @@
+.card-title {
+  color: white;
+}
+
+.banner {
+  height: 30%;
+  background-image: url("src/assets/Slike/flat-lay-delicious-local-food-assortment-with-copy-space.jpg");
+  color: black;
+  background-size: cover;
+  background-position: 0px 30%;
+  text-align: center;
+  padding: 80px 0;
+  height: 200px;
+  //position:fixed;
+  //opacity:0.7;
+}
