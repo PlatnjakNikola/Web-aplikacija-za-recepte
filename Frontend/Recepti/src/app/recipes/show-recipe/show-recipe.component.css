@@ -1,0 +1,156 @@
+.pic {
+  padding: 20px 0px;
+  text-align: center;
+  width: 100%;
+  align-items: center;
+}
+img{
+    border-radius:10px;
+}
+.img {
+  padding-left: 0;
+  padding-right:0;
+}
+
+.background {
+  position: relative;
+  height: 100%;
+}
+
+.background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../../../assets/Slike/background.jpg");
+  background-position: right;
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: repeat-y;
+  opacity: 0.3;
+}
+
+.background p, .background pre {
+  z-index: 1;
+  color: #212529;
+  font-size: 18px;
+}
+.background h1 {
+  color: #212529;
+  padding-top:10px;
+}
+
+.btnHeart {
+  color: rgb(238, 238, 238);
+  text-decoration: none;
+}
+.btnHeart:hover {
+    color: red;
+}
+.btnHeart:focus{
+    box-shadow:none;
+}
+
+p, i, pre {
+  font-size: 18px;
+}
+
+.link i {
+  font-size: 38px;
+}
+.btn i {
+  font-size: 25px;
+}
+
+.link {
+  color: rgb(238, 238, 238);
+}
+.link:hover{
+    color:black;
+}
+
+.col1 {
+  padding:10px;
+}
+
+.container {
+  position: relative;
+  border: 1px solid #ddd;
+  background-color: rgba(106, 100, 100,0.4);
+  /*background-color: rgba(33, 30, 30,0.3);*/
+  border-radius: 20px;
+  box-sizing: border-box;
+  align-items: center;
+  align-content:center;
+}
+.content {
+  padding: 30px;
+}
+
+.column {
+  padding: 20px 50px;
+}
+.text{
+    padding: 0px 50px;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.form input{
+    height:80px;
+    border-radius:10px;
+}
+
+.login .modal-content, .btn-close {
+  border-radius: 20px;
+  background-color:rgb(41, 41, 41);
+  color: white;
+}
+.btn-close {
+  background-color: white;
+}
+.login .modal-dialog {
+  position: center;
+  max-width: 420px;
+  min-width: 300px;
+}
+
+.edit {
+  text-align: right;
+  //padding-left:35px;
+  //padding-right: 50px;
+}
+.editBtn:focus {
+  box-shadow: none;
+}
+
+.button_content{
+    padding: 10px;
+    padding-bottom:0px;
+}
+
+/*.editText {
+  padding: 6px;
+  border: 1px solid #ccc;
+  background: none;
+  border: none;
+  text-align: center;
+  font-weight: 400;
+  height: auto;
+  width: 100%;
+  resize: none;
+  overflow: hidden;
+}
+.editText:focus-visible{
+    box-shadow:0;
+    outline:none;
+}
+
+.row{
+    position:relative;
+}*/
