@@ -1,0 +1,37 @@
+<form>
+  <div class="input" *ngIf="!loginPage">
+    <label for="firstName" class="form-label">First name: </label>
+    <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="firstName" />
+  </div>
+
+  <div class="input" *ngIf="!loginPage">
+    <label for="lastName" class="form-label">Last name: </label>
+    <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="lastName" />
+  </div>
+
+  <div class="input">
+    <label for="email" class="form-label">Email: </label>
+    <input type="text" class="form-control" id="email" name="email" [(ngModel)]="email" />
+  </div>
+
+  <div class="input">
+    <label for="password" class="form-label col-sm-2">Password: </label>
+    <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password" />
+  </div>
+  <div class="input" *ngIf="!loginPage">
+    <label for="confirm_password" class="form-label col-sm-12">Confirm password: </label>
+    <input type="password" class="form-control" id="confirm_password" name="confirm_password" [(ngModel)]="confirm_password" />
+  </div>
+
+  <div class="input" *ngIf="loginPage">
+    <button class="btn btn-outline-primary me-2 mb-1 btn-login" (click)="login()">Login</button>
+    <p>Don't have an account? <button class="btn btn-icon btn-register" (click)="showRegister()">Register</button></p>
+  </div>
+
+  <div class="input" *ngIf="!loginPage">
+    <button class="btn btn-outline-primary me-2 mb-1 btn-login" (click)="register()">Register</button>
+    <p>Have an account? <button class="btn btn-icon btn-register" (click)="showLogin()">Login</button></p>
+  </div>
+
+
+</form>
