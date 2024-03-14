@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@angular/common": "^17.2.4",
+    "bootstrap-icons": "^1.11.3"
+  }
+}
