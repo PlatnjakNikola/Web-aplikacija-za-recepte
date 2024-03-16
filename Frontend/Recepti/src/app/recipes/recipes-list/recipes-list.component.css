@@ -6,7 +6,8 @@
   border: 1px solid #ddd;
   box-sizing: border-box;
   position: relative;
-  border-radius: 10px;
+  //border-radius: 10px;
+  border-radius: 0.625rem;
 }
 .btn{
     background-color:lightgrey;
@@ -14,31 +15,35 @@
     color: black;
 }
 .container input {
-  border: 2px solid rgba(0, 0, 0, 0.355);
-
+  //border: 2px solid rgba(0, 0, 0, 0.355);
+  border: 0.125rem solid rgba(0, 0, 0, 0.355);
 }
-.btn-icon {
-  height: 38px;
-  width: 50px;
+/*.btn-icon {
+  //height: 38px;
+  height: 2375rem;
+  //width: 50px;
+  width: 3125rem;
   color: black;
-  padding: 0px
-}
+  padding: 0px;
+}*/
 
 .navbar {
   position: absolute;
-  top: 200px;
+  //top: 170px;
+  top: 10.625rem;
   left: 0;
   width: 100%;
-  background-color: rgb(236, 231, 231);
+  //background-color: rgb(236, 231, 231);
+  background-color: rgb(228, 226, 226);
   //position:fixed;
-  //background-color: rgb(79, 75, 75)
 }
 
 img {
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 10px;
+  //border-radius: 10px;
+  border-radius: 0.625rem;
 }
 
 .recipe-title {
@@ -53,13 +58,15 @@ img {
   line-height:normal;
   //font-size: 15px;
 }
-.recipe-title b {
-  background-color: rgb(137, 73, 32);
-  padding: 1px 5px;
-}
+  .recipe-title b {
+    background-color: rgb(137, 73, 32);
+    //padding: 1px 5px;
+    padding: 0.063rem 0.313rem;
+  }
 
 .column {
-  padding: 10px;
+  //padding: 10px;
+  padding: 0.625rem;
 }
 .column:hover {
   cursor:pointer;

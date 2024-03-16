@@ -4,13 +4,16 @@
 
 .banner {
   height: 30%;
-  background-image: url("src/assets/Slike/flat-lay-delicious-local-food-assortment-with-copy-space.jpg");
+  //background-image: url("src/assets/Slike/flat-lay-delicious-local-food-assortment-with-copy-space.jpg");
+  background-image: url("src/assets/Slike/banner_picture.png");
   color: black;
   background-size: cover;
-  background-position: 0px 30%;
-  text-align: center;
-  padding: 80px 0;
-  height: 200px;
+  background-position: 0px 55%;
+  background-repeat: no-repeat;
+  text-align: left;
+  //padding: 80px 0;
+  padding-left: 5%;
+  height: 170px;
   //position:fixed;
   //opacity:0.7;
 }

@@ -70,7 +70,7 @@
   <div class="container">
     <div class="row">
       <ng-container *ngFor="let recipe of recipesList$ | async">
-        <div class="col-xs-12 col-sm-6 col-md-4 column" *ngIf="recipe.enabled" (click)="recipeShow(recipe)" [routerLink]="['/recipe']">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 column" *ngIf="recipe.enabled" (click)="recipeShow(recipe)" [routerLink]="['/recipe']">
           <div class="recipe-card">
             <p class="recipe-title"><b>{{recipe.title}}</b></p>
             <img [src]="'/../../' + recipe.image" />

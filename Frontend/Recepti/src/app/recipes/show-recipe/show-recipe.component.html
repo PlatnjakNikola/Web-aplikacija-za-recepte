@@ -11,8 +11,8 @@
     </div>
     <div class="row pic">
       <!--<div class="col-sm-1 col-md-1 col-lg-1">
-      <a href="" class="link"><i class="bi bi-arrow-left-circle" (click)="backToHome()"></i></a>
-    </div>-->
+        <a href="" class="link"><i class="bi bi-arrow-left-circle" (click)="backToHome()"></i></a>
+      </div>-->
       <div class="col-sm-7 col-md-7 col-lg-7 img">
         <img [src]="'/../../' + recipe.image" style="width:100%" />
       </div>
@@ -32,16 +32,16 @@
         <!--<h1><textarea class="editText" type="text" [readonly]="(!admin || !edit)" [(ngModel)]="recipe.name"></textarea></h1>-->
       </div>
       <!--<div class="col-sm-1 col-md-1 col-lg-1">
-      <button class="btn btn-icon btnHeart" (click)="addFavorite()" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-heart-fill heart"></i>  Favorite</button>
-    </div>-->
+        <button class="btn btn-icon btnHeart" (click)="addFavorite()" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-heart-fill heart"></i>  Favorite</button>
+      </div>-->
 
     </div>
 
     <div class="content">
       <!--<div class="text">
-    <!--<p>{{recipe.description}}</p>
-    <p><i class="bi bi-clock"></i> {{recipe.timeToPrepare}} minutes</p>
-  </div>-->
+        <!--<p>{{recipe.description}}</p>
+        <p><i class="bi bi-clock"></i> {{recipe.timeToPrepare}} minutes</p>
+      </div>-->
 
 
       <div class="row">
@@ -67,7 +67,7 @@
     </div>
   </div>
   <br />
-  <div class="container">
+  <!--<div class="container">
     <div>
       <p><b>Comments</b></p>
       <div class="row">
@@ -81,42 +81,41 @@
       </div>
 
     </div>
-  </div>
-
+  </div>-->
   <!------------------------------------------LOGIN---------------------------------------------------------------->
-          <div class="login">
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-                 tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" (hidden.bs.modal)="addFavorite()">
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Welcome</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                            id="login-modal-close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <app-login *ngIf="login == false && open"></app-login>
-                  </div>
-                </div>
-              </div>
-            </div>
+  <div class="login">
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" (hidden.bs.modal)="addFavorite()">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Welcome</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    id="login-modal-close"></button>
           </div>
-          <!----------------------------------------------------------------------------------------------------------------->
-          <!------------------------------------------EDIT---------------------------------------------------------------->
-          <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false"
-               tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" (hidden.bs.modal)="addFavorite()">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="staticBackdropLabel">Edit recipe</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                          id="login-modal-close"></button>
-                </div>
-                <div class="modal-body">
-                  <app-add-edit-recipe [recipeEdit]="recipe" *ngIf="admin && edit"></app-add-edit-recipe>
-                </div>
-              </div>
-            </div>
+          <div class="modal-body">
+            <app-login *ngIf="login == false && open"></app-login>
           </div>
-          <!----------------------------------------------------------------------------------------------------------------->
         </div>
+      </div>
+    </div>
+  </div>
+  <!----------------------------------------------------------------------------------------------------------------->
+  <!------------------------------------------EDIT---------------------------------------------------------------->
+  <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false"
+       tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" (hidden.bs.modal)="addFavorite()">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Edit recipe</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                  id="login-modal-close"></button>
+        </div>
+        <div class="modal-body">
+          <app-add-edit-recipe [recipeEdit]="recipe" *ngIf="admin && edit"></app-add-edit-recipe>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!----------------------------------------------------------------------------------------------------------------->
+</div>

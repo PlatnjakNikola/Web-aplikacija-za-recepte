@@ -84,16 +84,22 @@ p, i, pre {
   box-sizing: border-box;
   align-items: center;
   align-content:center;
+  width:80%;
 }
 .content {
   padding: 30px;
 }
 
 .column {
-  padding: 20px 50px;
+  //padding: 20px 50px;
 }
 .text{
-    padding: 0px 50px;
+    //padding: 0px 50px;
+}
+li {
+  font-family: monospace;
+  padding-right:10px;
+  line-height:1,5;
 }
 
 pre {
