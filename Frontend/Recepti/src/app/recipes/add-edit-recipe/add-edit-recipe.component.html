@@ -5,7 +5,7 @@
   </div>
   <div class="input">
     <label for="recipeName" class="form-label">Image: </label>
-    <input type="file" accept="image/*" (change)="onFileChange($event)">
+    <input type="file" accept="*.png.jpg" (change)="onSelectFile($event)">
   </div>
   <div class="input">
     <label for="time" class="form-label">Time required: </label>
@@ -14,7 +14,6 @@
   </div>
   <div class="input">
     <label for="time" class="form-label">Category </label>
-    <!--<input type="number" class="form-control" style="width: 100px" id="time" name="time" [(ngModel)]="recipe.timeToPrepare" />-->
     <select class="form-control" name="recipeType" id="recipeType" [(ngModel)]="recipe.type">
       <option *ngFor="let type of recipeTypes" [selected]="type === recipe.type">{{ type }}</option>
     </select>
@@ -33,7 +32,7 @@
     <label for="procedure" class="form-label">Description: </label>
     <textarea class="form-control" id="floatingTextarea2" style="height: 300px" [(ngModel)]="recipe.description"></textarea>
     <br />
-    <button class="btn btn-outline-primary me-2 mb-1">Save changes</button>
+    <button class="btn btn-outline-primary me-2 mb-1" (click)="saveChanges()">Save changes</button>
   </div>
 
 
