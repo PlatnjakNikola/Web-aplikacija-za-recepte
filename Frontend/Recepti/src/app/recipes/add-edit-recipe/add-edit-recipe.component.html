@@ -4,21 +4,39 @@
     <input type="text" class="form-control" id="recipeName" name="recipeName" [(ngModel)]="recipe.title" />
   </div>
   <div class="input">
-    <label for="time" class="form-label">Time (in minutes): </label>
-    <input type="number" class="form-control" style="width: 100px" id="time" name="time" [(ngModel)]="recipe.timeToPrepare" />
+    <label for="recipeName" class="form-label">Image: </label>
+    <input type="file" accept="image/*" (change)="onFileChange($event)">
+  </div>
+  <div class="input">
+    <label for="time" class="form-label">Time required: </label>
+    <!--<input type="number" class="form-control" style="width: 100px" id="time" name="time" [(ngModel)]="recipe.timeToPrepare" />-->
+    <input type="text" class="form-control" style="width: 30%" id="time" name="time" [(ngModel)]="recipe.timeToPrepare" />
+  </div>
+  <div class="input">
+    <label for="time" class="form-label">Category </label>
+    <!--<input type="number" class="form-control" style="width: 100px" id="time" name="time" [(ngModel)]="recipe.timeToPrepare" />-->
+    <select class="form-control" name="recipeType" id="recipeType" [(ngModel)]="recipe.type">
+      <option *ngFor="let type of recipeTypes" [selected]="type === recipe.type">{{ type }}</option>
+    </select>
   </div>
   <div class="input">
     <label for="ingredients" class="form-label">Ingredients: </label>
-    <div *ngFor="let ingredient of recipe.ingredients; let i = index">
+    <!--<div *ngFor="let ingredient of recipe.ingredients; let i = index">
       <input type="text" class="form-control" id="recipeName" name="recipeName" [(ngModel)]="recipe.ingredients[i]"/>
-    </div>
+    </div>-->
+    <!--<textarea class="form-control" id="floatingTextarea2" style="height: 300px; width:70%" [(ngModel)]="recipe.ingreidents"></textarea>-->
+    <textarea rows="{{ recipe.ingredients.length }}" class="form-control" id="floatingTextarea2" style="width:70%">{{ recipe.ingredients.join('\n') }}</textarea>
   </div>
-  <button class="btn btn-outline-primary me-2 mb-1">Add Ingredient</button>
+  <!--<button class="btn btn-outline-primary me-2 mb-1">Add Ingredient</button>-->
 
   <div class="input">
     <label for="procedure" class="form-label">Description: </label>
     <textarea class="form-control" id="floatingTextarea2" style="height: 300px" [(ngModel)]="recipe.description"></textarea>
+    <br />
+    <button class="btn btn-outline-primary me-2 mb-1">Save changes</button>
   </div>
+
+
 </div>
-  
+
 
