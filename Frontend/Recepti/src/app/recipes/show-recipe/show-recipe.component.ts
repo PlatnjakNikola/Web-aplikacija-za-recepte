@@ -1,7 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipesService, Recipe } from '../../services/recipes.service';
-//import { AngularFireStorageModule } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
 
 @Component({
@@ -20,36 +19,11 @@ export class ShowRecipeComponent implements OnInit {
 
   constructor(private service: RecipesService, private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) { }
 
-  /*@ViewChild('container') container!: ElementRef;
-  @ViewChild('textarea') textarea!: ElementRef;
-
-  adjustHeight(): void {
-    console.log('adjustHeight called');
-    if (this.textarea && this.container) {
-      const textareaHeight = this.textarea.nativeElement.scrollHeight;
-      this.container.nativeElement.style.height = textareaHeight + 'px';
-    }
-  }*/
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.recipe = JSON.parse(params['recipe']);
     });
-
-    /*this.route.params.subscribe(params => {
-      this.id = params['id'];
-    });*/
-
-    //this.recipe = this.service.getRecipeById(this.id);
-
-    /*this.service.getRecipeById(this.id)
-      .subscribe(
-        (data: any[]) => {
-          this.recipe = data;
-          console.log('Podaci:', data);
-        })
-
-    this.recipe.description = this.recipe.description.replace("\n", '\n');*/
   }
 
 

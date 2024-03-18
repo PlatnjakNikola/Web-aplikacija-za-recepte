@@ -6,15 +6,12 @@
       </div>
       <div class="col-sm-6 col-md-6 col-lg-6 edit" *ngIf="admin">
         <button class="btn btn-icon editBtn" (click)="editRecipe()" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"><i class="bi bi-pencil-square"></i></button>
-        <!--<button class="btn btn-icon editBtn" (click)="editRecipe()" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"><i class="bi bi-pencil-square"></i></button>-->
       </div>
     </div>
     <div class="row pic">
-      <!--<div class="col-sm-1 col-md-1 col-lg-1">
-        <a href="" class="link"><i class="bi bi-arrow-left-circle" (click)="backToHome()"></i></a>
-      </div>-->
       <div class="col-sm-7 col-md-7 col-lg-7 img">
-        <img [src]="'/../../' + recipe.image" style="width:100%" />
+        <!--<img [src]="'/../../' + recipe.image" style="width:100%" />-->
+        <img src={{recipe.image}} style="width:100%" />
       </div>
       <div class="col-sm-5 col-md-5 col-lg-5">
         <div class="row">
@@ -26,31 +23,15 @@
             <button class="btn btn-icon btnHeart" (click)="addFavorite()" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-heart-fill heart"></i>  <br />Save</button>
           </div>
         </div>
-        <!--<h1 class="mb-3">{{recipe.title}}</h1>-->
-        <!--<input class="editText" type="text" [readonly]="(!admin || !edit)" [(ngModel)]="recipe.name">-->
-        <!--<h1><input class="editText" type="text" [readonly]="(!admin || !edit)" [(ngModel)]="recipe.name"></h1>-->
-        <!--<h1><textarea class="editText" type="text" [readonly]="(!admin || !edit)" [(ngModel)]="recipe.name"></textarea></h1>-->
       </div>
-      <!--<div class="col-sm-1 col-md-1 col-lg-1">
-        <button class="btn btn-icon btnHeart" (click)="addFavorite()" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-heart-fill heart"></i>  Favorite</button>
-      </div>-->
 
     </div>
 
     <div class="content">
-      <!--<div class="text">
-        <!--<p>{{recipe.description}}</p>
-        <p><i class="bi bi-clock"></i> {{recipe.timeToPrepare}} minutes</p>
-      </div>-->
-
-
       <div class="row">
         <div class="col-sm-12 col-md-6 col-lg-4 col1">
           <div class="column">
             <p><b>Ingredients</b></p>
-
-            <!--<pre>{{formateText(recipe.ingredients)}}</pre>-->
-            <!--<pre>{{recipe.ingredients}}</pre>-->
             <ul>
               <li *ngFor="let ingredient of recipe.ingredients">{{ ingredient}}</li>
             </ul>
