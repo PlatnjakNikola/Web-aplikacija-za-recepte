@@ -1,6 +1,8 @@
 import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RecipesService, Recipe } from '../../services/recipes.service'
+import { RecipesService, Recipe } from '../../services/recipes.service';
+//import { AngularFireStorageModule } from '@angular/fire/storage';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-show-recipe',
