@@ -85,6 +85,22 @@ namespace Server.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("search/{searchString}")]
+        public async Task<IActionResult> SearchRecipeByName(string searchString)
+        {
+            List<Recipe>? foundRecipes = await recipeRepository.GetByTitleAsync(searchString);
+
+            if (foundRecipes.Any())
+            {
+                return Ok(foundRecipes);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
 
     }
 }
