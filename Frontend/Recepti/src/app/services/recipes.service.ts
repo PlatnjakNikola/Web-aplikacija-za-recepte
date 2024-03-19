@@ -9,7 +9,7 @@ export interface Recipe {
   title: string,
   ingredients: string[],
   description: string,
-  timeToPrepare: Time,
+  timeToPrepare: number,
   type: string,
   image: string,
   enabled: boolean
@@ -27,13 +27,13 @@ export class RecipesService {
   getRecipesList(): Observable<any[]> {
     return this.http.get<any>(this.APIURL + '/Recipes');
   }
-  getRecipeById(id: number | string): Observable<any[]> {
-    return this.http.get<any[]>(this.APIURL + `/Recipes/${id}`);
+  getRecipeById(id: number | string): Observable<any> {
+    return this.http.get<any>(this.APIURL + `/Recipes/${id}`);
   }
-  updateRecipe(id: number, recipe: any) {
+  updateRecipe(id: number | string, recipe: any) {
     return this.http.put(this.APIURL + `/Recipes/${id}`, recipe);
   }
-  deleteRecipe(id: number) {
+  deleteRecipe(id: number | string) {
     return this.http.delete(this.APIURL + `/Recipes/${id}`);
   }
   /*getFilteredRecipesList(name: string, type: string): Observable<any[]> {
