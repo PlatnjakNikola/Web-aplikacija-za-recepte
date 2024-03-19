@@ -3,7 +3,7 @@
 }
 
 .banner {
-  height: 30%;
+  //height: 30%;
   //background-image: url("src/assets/Slike/flat-lay-delicious-local-food-assortment-with-copy-space.jpg");
   background-image: url("src/assets/Slike/banner_picture.png");
   color: black;
@@ -13,7 +13,35 @@
   text-align: left;
   //padding: 80px 0;
   padding-left: 5%;
-  height: 170px;
+  height: 11rem;
   //position:fixed;
   //opacity:0.7;
+}
+
+@media all and (min-width: 1600px) {
+
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 90%;
+  }
+}
+
+@media all and (min-width: 2000px) and (max-width: 2800px) {
+
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    font-size: 25px;
+  }
+}
+
+@media all and (min-width: 2800px) and (max-width: 2900px) {
+
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    font-size: 40px;
+  }
+}
+
+@media all and (min-width: 2900px) {
+
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    font-size: 70px;
+  }
 }

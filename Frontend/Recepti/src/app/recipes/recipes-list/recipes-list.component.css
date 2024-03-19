@@ -71,3 +71,15 @@ img {
 .column:hover {
   cursor:pointer;
 }
+
+/*@media screen and (min-width: 2500px) {
+  .container{
+      max-width:2500px
+  }
+}*/
+@media all and (min-width: 1500px) {
+
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 100%;
+  }
+}
