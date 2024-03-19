@@ -15,15 +15,19 @@ export class ShowRecipeComponent implements OnInit {
   open: boolean = false;
   admin: boolean = true;
   edit: boolean = false;
-  id!: number;
+  id!: number | string;
 
   constructor(private service: RecipesService, private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) { }
 
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.route.queryParams.subscribe(params => {
       this.recipe = JSON.parse(params['recipe']);
     });
+    
+
+    this.id = this.recipe.id;
+    this.recipe = await this.service.getRecipeById(this.id).toPromise();
   }
 
 
@@ -44,5 +48,9 @@ export class ShowRecipeComponent implements OnInit {
   }
   editRecipe(){
     this.edit = true;
+  }
+
+  async modalClose() {
+    this.recipe = await this.service.getRecipeById(this.id).toPromise();
   }
 }
