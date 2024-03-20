@@ -30,17 +30,39 @@ export class RecipesService {
   getRecipeById(id: number | string): Observable<any> {
     return this.http.get<any>(this.APIURL + `/Recipes/${id}`);
   }
+  addRecipe(recipe: any) {
+    return this.http.post(this.APIURL + '/Recipes', recipe);
+  }
   updateRecipe(id: number | string, recipe: any) {
     return this.http.put(this.APIURL + `/Recipes/${id}`, recipe);
   }
   deleteRecipe(id: number | string) {
     return this.http.delete(this.APIURL + `/Recipes/${id}`);
   }
-  /*getFilteredRecipesList(name: string, type: string): Observable<any[]> {
+  /*getFilteredRecipesList(title: string, type: string): Observable<any[]> {
     const params = new HttpParams()
-      .set('name', name)
+      .set('title', title)
       .set('type', type);
 
     return this.http.get<any>(this.APIURL + '/recipes/filter', { params });
   }*/
+
+  //USERS_______________
+  getUsersList(): Observable<any[]> {
+    return this.http.get<any>(this.APIURL + '/Users');
+  }
+  getUsersById(id: number | string): Observable<any> {
+    return this.http.get<any>(this.APIURL + `/Users/${id}`);
+  }
+  addUser(user: any) {
+    return this.http.post(this.APIURL + '/Users', user);
+  }
+  updaterUser(id: number | string, recipe: any) {
+    return this.http.put(this.APIURL + `/Users/${id}`, recipe);
+  }
+  deleteUser(id: number | string) {
+    return this.http.delete(this.APIURL + `/Users/${id}`);
+  }
+
+
 }
