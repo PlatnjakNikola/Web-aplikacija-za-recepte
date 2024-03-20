@@ -32,14 +32,14 @@
   }
 }
 
-@media all and (min-width: 2800px) and (max-width: 2900px) {
+@media all and (min-width: 2800px) and (max-width: 3000px) {
 
   .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
     font-size: 40px;
   }
 }
 
-@media all and (min-width: 2900px) {
+@media all and (min-width: 3000px) {
 
   .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
     font-size: 70px;
