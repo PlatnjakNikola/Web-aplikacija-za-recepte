@@ -73,7 +73,6 @@ namespace Server.Repositories.Implementation
                 }
                 else
                 {
-                    // 500 = internal server error.
                     return null;
                 }
             }

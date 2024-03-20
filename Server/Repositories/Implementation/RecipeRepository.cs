@@ -106,5 +106,13 @@ namespace Server.Repositories.Implementation
                 return null;
             }
         }
+
+        public async Task<List<Recipe>> GetByTitleAsync(string title)
+        {
+            List<Recipe> foundRecipes = await appDbContext.Recipes.Where(s => EF.Functions.Like(s.Title.ToLower(), $"%{title.ToLower()}%")).ToListAsync();
+
+            return foundRecipes;
+        }
+
     }
 }

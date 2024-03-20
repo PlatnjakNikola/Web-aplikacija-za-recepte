@@ -9,5 +9,6 @@ namespace Server.Repositories.Interface
         Task<Recipe> GetByIdAsync(int Id);
         Task<Recipe> UpdateAsync(int Id, RecipeCreateUpdateDTO updatedRecipeDTO);
         Task<Recipe> DeleteAsync(int Id);
+        Task<List<Recipe>?> GetByTitleAsync(string title);
     }
 }
