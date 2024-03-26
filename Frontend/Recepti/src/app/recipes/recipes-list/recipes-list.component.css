@@ -5,7 +5,7 @@
 .recipe-card {
   border: 1px solid #ddd;
   box-sizing: border-box;
-  position: relative;
+  //position: relative;
   //border-radius: 10px;
   border-radius: 0.625rem;
 }
@@ -58,26 +58,26 @@ img {
   line-height:normal;
   //font-size: 15px;
 }
-.recipe-card button {
-  //position: absolute;
-  //left: 80%;
-  //color: white;
-  //background-color:rgb(26, 26, 26, 0.56);
-  width:100%
+.trashBtn {
+  position: absolute;
+  right:5%;
+  color: white;
+  background-color:rgb(26, 26, 26, 0.56);
 }
 
-.recipe-card button:hover {
+.trashBtn:hover {
   color: red;
-  //background-color: rgb(92, 92, 92, 0.70);
+  background-color: rgb(92, 92, 92, 0.70);
 }
-  .recipe-title b {
-    background-color: rgb(137, 73, 32);
-    //padding: 1px 5px;
-    padding: 0.063rem 0.313rem;
-  }
+.recipe-title b {
+  background-color: rgb(137, 73, 32);
+  //padding: 1px 5px;
+  padding: 0.063rem 0.313rem;
+}
 
 .column {
   //padding: 10px;
+  position: relative;
   padding: 0.625rem;
 }
 .column:hover {
@@ -95,7 +95,6 @@ img {
   }
 }*/
 @media all and (min-width: 1500px) {
-
   .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
     max-width: 100%;
   }
