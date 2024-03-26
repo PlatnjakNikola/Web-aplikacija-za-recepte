@@ -39,13 +39,12 @@ export class RecipesService {
   deleteRecipe(id: number | string) {
     return this.http.delete(this.APIURL + `/Recipes/${id}`);
   }
-  /*getFilteredRecipesList(title: string, type: string): Observable<any[]> {
-    const params = new HttpParams()
-      .set('title', title)
-      .set('type', type);
+  getFilteredRecipesList(search: string): Observable<any[]> {
+    /*const params = new HttpParams()
+      .set('searchString', search)*/
 
-    return this.http.get<any>(this.APIURL + '/recipes/filter', { params });
-  }*/
+    return this.http.get<any>(this.APIURL + `/Recipes/search/${search}`);
+  }
 
   //USERS_______________
   getUsersList(): Observable<any[]> {
