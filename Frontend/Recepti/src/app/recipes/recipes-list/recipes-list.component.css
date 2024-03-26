@@ -9,7 +9,7 @@
   //border-radius: 10px;
   border-radius: 0.625rem;
 }
-.btn{
+.searchbtn{
     background-color:lightgrey;
     border-color: dimgrey;
     color: black;
@@ -58,6 +58,18 @@ img {
   line-height:normal;
   //font-size: 15px;
 }
+.recipe-card button {
+  //position: absolute;
+  //left: 80%;
+  //color: white;
+  //background-color:rgb(26, 26, 26, 0.56);
+  width:100%
+}
+
+.recipe-card button:hover {
+  color: red;
+  //background-color: rgb(92, 92, 92, 0.70);
+}
   .recipe-title b {
     background-color: rgb(137, 73, 32);
     //padding: 1px 5px;
@@ -70,6 +82,11 @@ img {
 }
 .column:hover {
   cursor:pointer;
+}
+
+.modal-dialog {
+  position: center;
+  text-align: left;
 }
 
 /*@media screen and (min-width: 2500px) {
