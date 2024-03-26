@@ -19,6 +19,7 @@ export class AddEditRecipeComponent implements OnInit {
   activateAddEditIngredient: boolean = false;
   ingredientbackUp!: string;
   ingreditnt!: string;
+  add: boolean = false;
   recipeTypes:String[] = ["Breakfast", "Lunch", "Dinner", "Appetizer", "Salad", "Main-course", "Side-dish", "Baked-goods", "Dessert", "Snack", "Soup", "Holiday", "Vegetarian"];
   constructor(private service:RecipesService) { }
 
@@ -30,19 +31,23 @@ export class AddEditRecipeComponent implements OnInit {
     //this.recipe = this.recipeEdit;
     this.id = this.recipeEdit.id;
     this.ingredients = this.recipe.ingredients.join('\n');
+    if (this.id == "0")
+      this.add = true;
   }
 
   onSelectFile(event: any) {
     this.file = event.target.files[0];
   }
 
-  async uploadFile(file: File) {
+  async uploadFile(file: File): Promise<void> {
+    console.log('Hi!');
     const desertRef = ref(getStorage(), this.recipe.image);
     /*deleteObject(desertRef)
       .then(() => {
         console.log('Image deleted successfully!');*/
         const storageRef = ref(getStorage(), `image${this.id}`);
-        const uploadTask = uploadBytes(storageRef, file);
+    const uploadTask = uploadBytes(storageRef, file);
+    console.log('Hi3!');
 
         try {
           const snapshot = await uploadTask;
@@ -67,9 +72,6 @@ export class AddEditRecipeComponent implements OnInit {
 
     this.recipe.ingredients = this.ingredients.trim().split('\n').filter((ingredient: string) => ingredient !== '')
    
-      
-
-
     console.log(this.recipe.ingredients);
 
    /*var recipe = {
@@ -93,6 +95,18 @@ export class AddEditRecipeComponent implements OnInit {
     else {
       console.log("no changes were made")
     }
+  }
+  async addRecipe(): Promise<void> {
+    if (this.file) {
+      await this.uploadFile(this.file);
+    }
+    this.recipe.enabled = true;
+    this.recipe.ingredients = this.ingredients.trim().split('\n').filter((ingredient: string) => ingredient !== '')
+    this.service.addRecipe(this.recipe).subscribe(() => {
+    },
+      (error: any) => {
+        alert(error.error);
+      });
   }
 
   
