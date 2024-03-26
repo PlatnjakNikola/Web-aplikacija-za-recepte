@@ -1,9 +1,12 @@
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgModule, importProvidersFrom } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideStorage, getStorage } from '@angular/fire/storage';
+import { Auth, getAuth, User, provideAuth } from "@angular/fire/auth";
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgModule, importProvidersFrom } from '@angular/core';
+import { environment } from '../environments/environment';
+
 
 
 import { AppComponent } from './app.component';
@@ -39,11 +42,13 @@ const firebaseConfig = {
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-  ],
-  providers: [importProvidersFrom([
-    provideFirebaseApp(() => initializeApp(firebaseConfig)),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideStorage(() => getStorage())
-  ])],
+  ],
+  providers: [/*importProvidersFrom([
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideStorage(() => getStorage())
+  ])*/],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
