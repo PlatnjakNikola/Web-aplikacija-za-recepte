@@ -134,10 +134,13 @@ pre {
 .editBtn:focus {
   box-shadow: none;
 }
+.editBtn:hover{
+    color:white;
+}
 
-.button_content{
-    padding: 10px;
-    padding-bottom:0px;
+.button_content {
+  padding: 10px;
+  padding-bottom: 0px;
 }
 
 /*.editText {

@@ -5,11 +5,11 @@
 .recipe-card {
   border: 1px solid #ddd;
   box-sizing: border-box;
-  position: relative;
+  //position: relative;
   //border-radius: 10px;
   border-radius: 0.625rem;
 }
-.btn{
+.searchbtn{
     background-color:lightgrey;
     border-color: dimgrey;
     color: black;
@@ -58,18 +58,35 @@ img {
   line-height:normal;
   //font-size: 15px;
 }
-  .recipe-title b {
-    background-color: rgb(137, 73, 32);
-    //padding: 1px 5px;
-    padding: 0.063rem 0.313rem;
-  }
+.trashBtn {
+  position: absolute;
+  right:5%;
+  color: white;
+  background-color:rgb(26, 26, 26, 0.56);
+}
+
+.trashBtn:hover {
+  color: red;
+  background-color: rgb(92, 92, 92, 0.70);
+}
+.recipe-title b {
+  background-color: rgb(137, 73, 32);
+  //padding: 1px 5px;
+  padding: 0.063rem 0.313rem;
+}
 
 .column {
   //padding: 10px;
+  position: relative;
   padding: 0.625rem;
 }
 .column:hover {
   cursor:pointer;
+}
+
+.modal-dialog {
+  position: center;
+  text-align: left;
 }
 
 /*@media screen and (min-width: 2500px) {
@@ -78,7 +95,6 @@ img {
   }
 }*/
 @media all and (min-width: 1500px) {
-
   .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
     max-width: 100%;
   }

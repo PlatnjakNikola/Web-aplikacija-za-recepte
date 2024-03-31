@@ -28,55 +28,51 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Login</a>
           </li>
-          <!--<li class="nav-item">
-    <a class="nav-link disabled">Disabled</a>
-  </li>-->
+          <li class="nav-item">
+            <button class="btn btn-icon addbtn add" (click)="addRecipe()" data-bs-toggle="modal" data-bs-target="#staticBackdrop" *ngIf="admin">Add recipe</button>
+            <!--<a class="nav-link">Add recipe</a>-->
+          </li>
         </ul>
         <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
+          <input class="form-control me-2" type="text" placeholder="Search" name="search" id="search" [(ngModel)]="search">
+          <button class="btn btn-outline-success searchbtn" type="submit" (click)="searchRecipe()">Search</button>
         </form>
       </div>
     </div>
   </nav>
   <br /><br />
 
-
-
-
-
-  <!--<div class="row">
-      <div class="col-md-12">
-        <div class="form-group row">
-          <!--<label for="Telefon" class="col-md-1 col-form-label">Meal:</label>
-    <div class="col-md-4">
-      <input type="text" class="form-control" id="Meal" [(ngModel)]="typeFilter" placeholder="What meal would you like to have?">
-    </div>
-    <div class="col-md-1">
-      <!--<button type="button" class="btn btn-primary" (click)="FilterContacts()">Traži</button>
-      <button type="button" class="btn btn-primary btn-icon"><i class="bi bi-search fs-6"></i></button>
-    </div>
-    <div class="col-md-1">
-      <!--<button type="button" class="btn btn-primary" (click)="RemoveFilter()" *ngIf="filtered">Reset</button>
-      <button type="button" class="btn btn-primary" *ngIf="filtered">Reset</button>
-    </div>
-  </div>
-      </div>
-    </div>
-  </div>-->
   <br />
   <br />
 
   <div class="container">
     <div class="row">
       <ng-container *ngFor="let recipe of recipesList$ | async">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 column" *ngIf="recipe.enabled" (click)="recipeShow(recipe)" [routerLink]="['/recipe']">
-          <div class="recipe-card">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 column" *ngIf="recipe.enabled">
+          <button class="btn btn-icon trashBtn" (click)="deleteRecipe(recipe)" *ngIf="admin"><i class="bi bi-trash3"></i></button>
+          <div class="recipe-card" (click)="recipeShow(recipe)" [routerLink]="['/recipe']">
             <p class="recipe-title"><b>{{recipe.title}}</b></p>
             <img src={{recipe.image}} />
             <!--<button class="btn btn-primary" (click)="recipeShow(recipe)" [routerLink]="['/recipe']">More</button>-->
           </div>
         </div>
-        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+
+  <!------------------------------------------EDIT---------------------------------------------------------------->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+       tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Add recipe</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                  (click)="modalClose()" id="login-modal-close"></button>
+        </div>
+        <div class="modal-body">
+          <app-add-edit-recipe [recipeEdit]="recipe" *ngIf="admin && add"></app-add-edit-recipe>
+        </div>
+      </div>
     </div>
   </div>

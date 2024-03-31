@@ -4,8 +4,8 @@
     <input type="text" class="form-control" id="recipeName" name="recipeName" [(ngModel)]="recipe.title" />
   </div>
   <div class="input">
-    <label for="recipeName" class="form-label">Image: </label>
-    <input type="file" accept="*.png.jpg" (change)="onSelectFile($event)">
+    <label for="recipeName" class="form-label">Image: </label><br />
+    <input type="file" accept="*.png.jpg" (change)="onSelectFile($event)" >
   </div>
   <div class="input">
     <label for="time" class="form-label">Time required: </label>
@@ -32,7 +32,8 @@
     <label for="procedure" class="form-label">Description: </label>
     <textarea class="form-control" id="floatingTextarea2" style="height: 300px" [(ngModel)]="recipe.description"></textarea>
     <br />
-    <button class="btn btn-outline-primary me-2 mb-1" (click)="saveChanges()">Save changes</button>
+    <button class="btn btn-outline-primary me-2 mb-1" (click)="saveChanges()" *ngIf="!add">Save changes</button>
+    <button class="btn btn-outline-primary me-2 mb-1" (click)="addRecipe()" *ngIf="add">Add recipe</button>
   </div>
 
 

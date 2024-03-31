@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipesService, Recipe } from 'src/app/services/recipes.service';
 import { FirebaseStorage } from '@angular/fire/storage';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { getDownloadURL, ref, Storage, uploadBytes, getStorage, deleteObject } from '@angular/fire/storage';
 
 @Component({
@@ -19,8 +20,9 @@ export class AddEditRecipeComponent implements OnInit {
   activateAddEditIngredient: boolean = false;
   ingredientbackUp!: string;
   ingreditnt!: string;
+  add: boolean = false;
   recipeTypes:String[] = ["Breakfast", "Lunch", "Dinner", "Appetizer", "Salad", "Main-course", "Side-dish", "Baked-goods", "Dessert", "Snack", "Soup", "Holiday", "Vegetarian"];
-  constructor(private service:RecipesService) { }
+  constructor(private service: RecipesService, private storage: AngularFireStorage) { }
 
   @Input() recipeEdit!: any;
   //@Output() updateRecipeEvent: EventEmitter<any> = new EventEmitter<void>();
@@ -30,19 +32,23 @@ export class AddEditRecipeComponent implements OnInit {
     //this.recipe = this.recipeEdit;
     this.id = this.recipeEdit.id;
     this.ingredients = this.recipe.ingredients.join('\n');
+    if (this.id == "0")
+      this.add = true;
   }
 
   onSelectFile(event: any) {
     this.file = event.target.files[0];
   }
 
-  async uploadFile(file: File) {
+  /*async uploadFile(file: File): Promise<void> {
+    console.log('Hi!');
     const desertRef = ref(getStorage(), this.recipe.image);
     /*deleteObject(desertRef)
       .then(() => {
         console.log('Image deleted successfully!');*/
-        const storageRef = ref(getStorage(), `image${this.id}`);
-        const uploadTask = uploadBytes(storageRef, file);
+        /*const storageRef = ref(getStorage(), `image${this.id}`);
+    const uploadTask = uploadBytes(storageRef, file);
+    console.log('Hi3!');
 
         try {
           const snapshot = await uploadTask;
@@ -56,9 +62,33 @@ export class AddEditRecipeComponent implements OnInit {
       /*})
       .catch((error) => {
         console.error('Error deleting file:', error);
-      });*/
+      });
     
+  }*/
+
+  async uploadFile(file: File): Promise<void> {
+    const filePath = `image${this.id}`;
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(`image${this.id}`, file);
+
+    if (this.recipe.image != "https://firebasestorage.googleapis.com/v0/b/web-aplikacija-za-recept-c7e86.appspot.com/o/default.jpg?alt=media&token=414cf1ee-da7a-4bbb-a7c1-83acc126b8c4") {
+      try {
+        await this.storage.refFromURL(this.recipe.image).delete();
+        console.log('File deleted successfully!');
+      } catch (error) {
+        console.error('Error deleting file:', error);
+      }
+    }
+    try {
+      const snapshot = await task.snapshotChanges().toPromise(); 
+      const downloadURL = await fileRef.getDownloadURL().toPromise();
+      this.recipe.image = downloadURL;
+      console.log('Download URL:', downloadURL);
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
   }
+
 
   async saveChanges(): Promise<void>{
     if (this.file) {
@@ -67,9 +97,6 @@ export class AddEditRecipeComponent implements OnInit {
 
     this.recipe.ingredients = this.ingredients.trim().split('\n').filter((ingredient: string) => ingredient !== '')
    
-      
-
-
     console.log(this.recipe.ingredients);
 
    /*var recipe = {
@@ -93,6 +120,21 @@ export class AddEditRecipeComponent implements OnInit {
     else {
       console.log("no changes were made")
     }
+  }
+  async addRecipe(): Promise<void> {
+    if (this.file) {
+      await this.uploadFile(this.file);
+    }
+    else {
+      this.recipe.image = "https://firebasestorage.googleapis.com/v0/b/web-aplikacija-za-recept-c7e86.appspot.com/o/default.jpg?alt=media&token=414cf1ee-da7a-4bbb-a7c1-83acc126b8c4";
+    }
+    this.recipe.enabled = true;
+    this.recipe.ingredients = this.ingredients.trim().split('\n').filter((ingredient: string) => ingredient !== '')
+    this.service.addRecipe(this.recipe).subscribe(() => {
+    },
+      (error: any) => {
+        alert(error.error);
+      });
   }
 
   
