@@ -14,9 +14,10 @@ namespace Server.Controllers
         private readonly IFavoriteRepository favoriteRepository;
         public static Recipe? currentRecipe;
 
-        public RecipesController(IRecipeRepository recipeRepository)
+        public RecipesController(IRecipeRepository recipeRepository, IFavoriteRepository favoriteRepository)
         {
             this.recipeRepository = recipeRepository;
+            this.favoriteRepository = favoriteRepository;
         }
 
         [HttpGet]

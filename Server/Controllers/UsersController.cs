@@ -15,9 +15,10 @@ namespace Server.Controllers
         private readonly IFavoriteRepository favoriteRepository;
         public static User? currentUser;
 
-        public UsersController(IUserRepository userRepository)
+        public UsersController(IUserRepository userRepository, IFavoriteRepository favoriteRepository)
         {
             this.userRepository = userRepository;
+            this.favoriteRepository = favoriteRepository;
         }
 
         [HttpGet]
