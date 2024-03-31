@@ -46,7 +46,7 @@ namespace Server.Repositories.Implementation
                 return null;
             }
         }
-        static string ByteArrayToString(byte[] arrInput)
+        public static string ByteArrayToString(byte[] arrInput)
         {
             int i;
             StringBuilder sOutput = new StringBuilder(arrInput.Length);

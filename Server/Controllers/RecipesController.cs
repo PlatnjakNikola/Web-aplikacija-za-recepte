@@ -11,6 +11,8 @@ namespace Server.Controllers
     public class RecipesController : Controller
     {
         private readonly IRecipeRepository recipeRepository;
+        private readonly IFavoriteRepository favoriteRepository;
+        public static Recipe? currentRecipe;
 
         public RecipesController(IRecipeRepository recipeRepository)
         {
@@ -18,7 +20,6 @@ namespace Server.Controllers
         }
 
         [HttpGet]
-        
         public async Task<IActionResult> GetAllRecipes()
         {
             List<Recipe> allRecipes = await recipeRepository.GetAllAsync();
@@ -31,6 +32,8 @@ namespace Server.Controllers
         public async Task<IActionResult> GetRecipeById(int Id)
         {
             Recipe? recipe = await recipeRepository.GetByIdAsync(Id);
+
+            currentRecipe = recipe;
 
             if (recipe != null)
             {
@@ -77,6 +80,16 @@ namespace Server.Controllers
 
             if (recipeToDelete != null)
             {
+                //Delete favorites
+                List<Favorite> favorites = await favoriteRepository.GetAllFromCurrentUserAsync();
+                foreach (Favorite f in favorites)
+                {
+                    if (f.RecipeId == Id)
+                    {
+                        await favoriteRepository.DeleteAsync(f.Id);
+                    }
+                }
+
                 return NoContent();
             }
             else

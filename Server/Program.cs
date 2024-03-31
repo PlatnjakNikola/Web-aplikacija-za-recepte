@@ -24,6 +24,7 @@ builder.Services.AddDbContext<AppDbContext>(dbContextOptionsBuilder =>
 
 builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
 
 var app = builder.Build();
 

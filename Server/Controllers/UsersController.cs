@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Server.Models;
+using Server.Repositories.Implementation;
 using Server.Repositories.Interface;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Server.Controllers
 {
@@ -9,6 +12,8 @@ namespace Server.Controllers
     public class UsersController : Controller
     {
         private readonly IUserRepository userRepository;
+        private readonly IFavoriteRepository favoriteRepository;
+        public static User? currentUser;
 
         public UsersController(IUserRepository userRepository)
         {
@@ -16,7 +21,6 @@ namespace Server.Controllers
         }
 
         [HttpGet]
-
         public async Task<IActionResult> GetAllUsers()
         {
             List<User> allUsers = await userRepository.GetAllAsync();
@@ -50,6 +54,44 @@ namespace Server.Controllers
 
         }
 
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> LoginUser(UserLogin user)
+        {
+            List<User> allUsers = await userRepository.GetAllAsync();
+
+            string passSource = user.Password;
+            byte[] tmpSource = ASCIIEncoding.ASCII.GetBytes(passSource);
+            byte[] tmpHash = MD5.HashData(tmpSource);
+
+            string hashPass = UserRepository.ByteArrayToString(tmpHash);
+
+            User loggedInUser = null;
+
+            foreach (User u in allUsers)
+            {
+                if (user.UsernameOrEmail == u.Email || user.UsernameOrEmail == u.Username)
+                {
+                    if (u.Password == hashPass)
+                    {
+                        loggedInUser = u;
+                    }
+                }
+            }
+
+            currentUser = loggedInUser;
+
+            if (loggedInUser != null)
+            {
+                return Ok(loggedInUser);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
         [HttpPut]
         [Route("{Id}")]
         public async Task<IActionResult> UpdateUser(int Id, UserCreateUpdateDTO updatedUserDTO)
@@ -75,6 +117,16 @@ namespace Server.Controllers
 
             if (userToDelete != null)
             {
+                //Delete favorites
+                List<Favorite> favorites = await favoriteRepository.GetAllFromCurrentUserAsync();
+                foreach (Favorite f in favorites)
+                {
+                    if (f.UserId == Id)
+                    {
+                        await favoriteRepository.DeleteAsync(f.Id);
+                    }
+                }
+
                 return NoContent();
             }
             else

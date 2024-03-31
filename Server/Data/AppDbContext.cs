@@ -9,6 +9,7 @@ public class AppDbContext : DbContext
     // Source: https://docs.microsoft.com/en-us/ef/core/miscellaneous/nullable-reference-types#dbcontext-and-dbset.
     public DbSet<Recipe> Recipes => Set<Recipe>();
     public DbSet<User> Users => Set<User>();
+    public DbSet<Favorite> Favorites => Set<Favorite>();
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
