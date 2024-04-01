@@ -5,6 +5,8 @@ using Server.Repositories.Interface;
 
 namespace Server.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class FavoritesController : Controller
     {
         private readonly IFavoriteRepository favoriteRepository;

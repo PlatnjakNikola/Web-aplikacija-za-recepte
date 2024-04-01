@@ -26,7 +26,7 @@ public class AppDbContext : DbContext
             {
                 Id = i,
                 Title = $"Recipe {i}",
-                Ingredients = new List<string> { $"Ing1", $"ing2"},
+                Ingredients = new List<string> {$"Ing1 20 g", $"4 tbsp"},
                 Description = $"Description",
                 TimeToPrepare = 20,
                 Type = "Breakfast",

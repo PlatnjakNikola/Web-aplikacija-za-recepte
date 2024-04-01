@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Server.Models;
 using Server.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
+using Server.Util;
 
 namespace Server.Controllers
 {
@@ -12,6 +13,7 @@ namespace Server.Controllers
     {
         private readonly IRecipeRepository recipeRepository;
         private readonly IFavoriteRepository favoriteRepository;
+        private bool americanUnits;
         public static Recipe? currentRecipe;
 
         public RecipesController(IRecipeRepository recipeRepository, IFavoriteRepository favoriteRepository)
@@ -49,11 +51,11 @@ namespace Server.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRecipe(RecipeCreateUpdateDTO recipeToCreateDTO)
         {
+            recipeToCreateDTO.Ingredients = UnitUtil.convertFromAmerican(recipeToCreateDTO.Ingredients);
 
             Recipe createdRecipe = await recipeRepository.CreateAsync(recipeToCreateDTO);
 
             return Ok(createdRecipe);
-
         }
 
         [HttpPut]
@@ -115,6 +117,8 @@ namespace Server.Controllers
             }
 
         }
+
+        
 
     }
 }
