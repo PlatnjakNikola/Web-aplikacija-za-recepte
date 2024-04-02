@@ -13,9 +13,12 @@
     <label for="username" class="form-label col-sm-2">Username: </label>
     <input type="text" class="form-control" id="username" name="username" [(ngModel)]="username" />
   </div>
-  <div class="input">
-    <label for="email" class="form-label" *ngIf="!loginPage">Email: </label>
+  <div class="input" *ngIf="loginPage">
     <label for="email" class="form-label" *ngIf="loginPage">Email/username: </label>
+    <input type="email" class="form-control" id="email" name="email" [(ngModel)]="usernameOrEmail" />
+  </div>
+  <div class="input" *ngIf="!loginPage">
+    <label for="email" class="form-label" *ngIf="!loginPage">Email: </label>
     <input type="email" class="form-control" id="email" name="email" [(ngModel)]="email" />
   </div>
   <div class="input">

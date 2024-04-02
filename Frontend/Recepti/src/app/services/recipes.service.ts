@@ -62,6 +62,19 @@ export class RecipesService {
   deleteUser(id: number | string) {
     return this.http.delete(this.APIURL + `/Users/${id}`);
   }
+  loginUser(login: any) {
+    return this.http.post(this.APIURL + '/Users/login', login);
+  }
+
+  addFavorite() {
+    return this.http.post(this.APIURL + '/Favorites', {});
+  }
+  getFavoriteRecipes(): Observable<any[]>  {
+    return this.http.get<any>(this.APIURL + '/Favorites');
+  }
+  removeFavorite(id: number | string) {
+    return this.http.delete(this.APIURL + `/Favorites/${id}`);
+  }
 
 
 }

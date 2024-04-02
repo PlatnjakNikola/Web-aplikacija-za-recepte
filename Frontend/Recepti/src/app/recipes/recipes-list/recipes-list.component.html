@@ -19,23 +19,31 @@
 
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Home</a>
+      <a class="navbar-brand" href="#" (click) ="home()">Home</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="#">Login</a>
+            <button class="btn btn-icon addbtn add" (click)="addRecipe()" data-bs-toggle="modal" data-bs-target="#staticBackdrop2" *ngIf="!login">Login</button>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" *ngIf="login">{{username}}</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" *ngIf="login">
+              <li><a class="dropdown-item" href="#" (click)="logOut()">Log out</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-icon addbtn add" (click)="showFavorites()" *ngIf="login">Favorites</button>
           </li>
           <li class="nav-item">
             <button class="btn btn-icon addbtn add" (click)="addRecipe()" data-bs-toggle="modal" data-bs-target="#staticBackdrop" *ngIf="admin">Add recipe</button>
-            <!--<a class="nav-link">Add recipe</a>-->
           </li>
         </ul>
         <form class="d-flex">
-          <input class="form-control me-2" type="text" placeholder="Search" name="search" id="search" [(ngModel)]="search">
-          <button class="btn btn-outline-success searchbtn" type="submit" (click)="searchRecipe()">Search</button>
+          <input class="form-control me-2" type="text" placeholder="Search" name="search" id="search" [(ngModel)]="search" [disabled]="!login"> 
+          <button class="btn btn-outline-success searchbtn" type="submit" (click)="searchRecipe()" [disabled]="!login">Search</button>
         </form>
       </div>
     </div>
@@ -47,16 +55,45 @@
 
   <div class="container">
     <div class="row">
+      <div *ngIf ="showFavorite" class="favorite">
+        <h2>Favorites</h2>
+        <br />
+      </div>
       <ng-container *ngFor="let recipe of recipesList$ | async">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 column" *ngIf="recipe.enabled">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 column" *ngIf="recipe.enabled" [ngClass]="{'blurred': !login}">
           <button class="btn btn-icon trashBtn" (click)="deleteRecipe(recipe)" *ngIf="admin"><i class="bi bi-trash3"></i></button>
-          <div class="recipe-card" (click)="recipeShow(recipe)" [routerLink]="['/recipe']">
+          <div class="recipe-card" (click)="showRecipe(recipe.id)" *ngIf="login">
+            <!--<div class="recipe-card" (click) = "showRecipe()" [routerLink]="['/recipe', recipe.id]">-->
             <p class="recipe-title"><b>{{recipe.title}}</b></p>
             <img src={{recipe.image}} />
-            <!--<button class="btn btn-primary" (click)="recipeShow(recipe)" [routerLink]="['/recipe']">More</button>-->
+          </div>
+
+          <div class="recipe-card" *ngIf="!login" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+            <!--<div class="recipe-card" (click) = "showRecipe()" [routerLink]="['/recipe', recipe.id]">-->
+            <p class="recipe-title"><b>{{recipe.title}}</b></p>
+            <img src={{recipe.image}} />
           </div>
         </div>
       </ng-container>
+    </div>
+  </div>
+
+  <!------------------------------------------LOGIN---------------------------------------------------------------->
+  <div class="login">
+    <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false"
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true"  #loginModal>
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Welcome</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    id="login-modal-close" #loginModalCloseButton></button>
+          </div>
+          <div class="modal-body">
+            <app-login *ngIf="login == false" (loginSuccess)="onLoginSuccess($event)"></app-login>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
