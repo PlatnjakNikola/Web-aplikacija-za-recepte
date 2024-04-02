@@ -5,44 +5,46 @@
         <a href="" class="link"><i class="bi bi-arrow-left-circle" (click)="backToHome()"></i></a>
       </div>
       <div class="col-sm-6 col-md-6 col-lg-6 edit" *ngIf="admin">
-        <button class="btn btn-icon editBtn" (click)="editRecipe()" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"><i class="bi bi-pencil-square"></i></button>
+        <button class="btn btn-icon editBtn" (click)="saveAsPDF()"><i class="bi bi-download"></i></button>
+        <button class="btn btn-icon editBtn" (click)="editRecipe()" data-bs-toggle="modal" data-bs-target="#staticBackdrop2" *ngIf="!admin"><i class="bi bi-pencil-square"></i></button>
       </div>
     </div>
-    <div class="row pic">
-      <div class="col-sm-7 col-md-7 col-lg-7 img">
-        <!--<img [src]="'/../../' + recipe.image" style="width:100%" />-->
-        <img src={{recipe.image}} style="width:100%" />
+    <div >
+      <div class="row pic">
+        <div class="col-sm-7 col-md-7 col-lg-7 img">
+          <img src={{recipe.image}} style="width:100%" />
+        </div>
+        <div class="col-sm-5 col-md-5 col-lg-5">
+          <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12" id="recipeTitle">
+              <h1 class="mb-3">{{recipe.title}}</h1>
+              <br /><p><i class="bi bi-clock"></i> {{recipe.timeToPrepare}} minutes</p>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12">
+              <button class="btn btn-icon btnHeart" (click)="addFavorite()" *ngIf="!favorite"><i class="bi bi-heart-fill heart"></i><br />Save</button>
+              <button class="btn btn-icon btnHeart saved" (click)="removeFavorite()" *ngIf="favorite"><i class="bi bi-heart-fill heart"></i><br />Save</button>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div class="col-sm-5 col-md-5 col-lg-5">
+
+      <div class="content" id="recipe-content">
         <div class="row">
-          <div class="col-sm-12 col-md-12 col-lg-12">
-            <h1 class="mb-3">{{recipe.title}}</h1>
-            <br /><p><i class="bi bi-clock"></i> {{recipe.timeToPrepare}} minutes</p>
+          <div class="col-sm-12 col-md-6 col-lg-4 col1">
+            <div class="column">
+              <p><b>Ingredients</b></p>
+              <ul>
+                <li *ngFor="let ingredient of recipe.ingredients">{{ ingredient}}</li>
+              </ul>
+            </div>
           </div>
-          <div class="col-sm-12 col-md-12 col-lg-12">
-            <button class="btn btn-icon btnHeart" (click)="addFavorite()" *ngIf="!favorite"><i class="bi bi-heart-fill heart"></i><br />Save</button>
-            <button class="btn btn-icon btnHeart saved" (click)="removeFavorite()" *ngIf="favorite"><i class="bi bi-heart-fill heart"></i><br />Save</button>
-          </div>
-        </div>
-      </div>
 
-    </div>
-
-    <div class="content">
-      <div class="row">
-        <div class="col-sm-12 col-md-6 col-lg-4 col1">
-          <div class="column">
-            <p><b>Ingredients</b></p>
-            <ul>
-              <li *ngFor="let ingredient of recipe.ingredients">{{ ingredient}}</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="col-sm-12 col-md-6 col-lg-8 col1 col2">
-          <div class="column">
-            <p><b>Procedure</b></p>
-            <pre>{{recipe.description}}</pre>
+          <div class="col-sm-12 col-md-6 col-lg-8 col1 col2">
+            <div class="column">
+              <p><b>Procedure</b></p>
+              <pre>{{recipe.description}}</pre>
+            </div>
           </div>
         </div>
       </div>

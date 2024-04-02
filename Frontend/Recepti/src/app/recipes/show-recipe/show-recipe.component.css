@@ -72,7 +72,8 @@ p, i, pre {
 }
 
 .col1 {
-  padding:10px;
+  padding: 20px;
+  //box-sizing: border-box;
 }
 
 .container {

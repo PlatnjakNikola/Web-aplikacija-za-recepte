@@ -1,7 +1,12 @@
 import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipesService, Recipe } from '../../services/recipes.service';
-import { finalize } from 'rxjs/operators';
+import jsPDF from 'jspdf';
+//import * as jsPDF from 'jspdf';
+import domToImage from 'dom-to-image';
+//import moment from 'moment';
+import * as moment from 'moment';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-show-recipe',
@@ -19,6 +24,8 @@ export class ShowRecipeComponent implements OnInit {
   userId!: number | string;
   favorite: boolean = false;
   favoriteId!: number | string;
+
+  @ViewChild('recipe-content', { static: false }) public dataToExport!: ElementRef;
 
   constructor(private service: RecipesService, private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) { }
 
@@ -93,4 +100,55 @@ export class ShowRecipeComponent implements OnInit {
   async modalClose() {
     this.recipe = await this.service.getRecipeById(this.recipeId).toPromise();
   }
+
+  /*async saveAsPDF() {
+    const data1: any = document.getElementById('recipeTitle');
+    const data: any = document.getElementById('recipe-content'); // Id of the table
+    await html2canvas(data).then((canvas) => {
+      // Get canvas data URL
+      const contentDataURL = canvas.toDataURL('image/jpeg');
+
+      // Create PDF document
+      const doc = new jsPDF('p', 'mm', 'a4');
+      const imgWidth = 208;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+
+      // Add image to PDF
+      doc.addImage(contentDataURL, 'JPEG', 0, 0, imgWidth, imgHeight);
+
+      // Add text to PDF
+      doc.setFontSize(16);
+      doc.setTextColor(80, 77, 78);
+
+      doc.save('recipe.pdf');
+    });
+  }*/
+
+  async saveAsPDF() {
+    const titleElement: any = document.getElementById('recipeTitle');
+    const data: any = document.getElementById('recipe-content');
+
+    const doc = new jsPDF('p', 'mm', 'a4');
+
+    const titleText = titleElement.querySelector('h1').innerText; 
+    const timeToPrepare = titleElement.querySelector('p').innerText;
+
+    doc.setFontSize(16);
+    doc.setTextColor(80, 77, 78);
+    doc.text(titleText, 10, 10);
+    doc.setFontSize(12);
+    doc.text(timeToPrepare, 10, 20);
+   // doc.addImage(this.recipe.image, 'JPEG', 10, 30, 100, 90);
+
+    html2canvas(data).then((canvasContent) => {
+      const contentDataURL = canvasContent.toDataURL('image/jpeg');
+
+      const contentImgWidth = 208;
+      const contentImgHeight = canvasContent.height * contentImgWidth / canvasContent.width;
+      doc.addImage(contentDataURL, 'JPEG', 10, 30, contentImgWidth, contentImgHeight);
+      doc.save(this.recipe.title +'.pdf');
+    });
+  }
+
+
 }
