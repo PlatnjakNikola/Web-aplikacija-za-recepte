@@ -16,6 +16,9 @@ export class AuthService {
   isLoggedIn(): boolean {
     return this.loggedIn;
   }
+  isAdmin(): boolean {
+    return this.user.isAdmin;
+  }
 
   getUserData(): any {
     return JSON.parse(localStorage.getItem('user') || '{}');

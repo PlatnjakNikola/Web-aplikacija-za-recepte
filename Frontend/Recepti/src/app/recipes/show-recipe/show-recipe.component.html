@@ -4,9 +4,9 @@
       <div class="col-sm-6 col-md-6 col-lg-6">
         <a href="" class="link"><i class="bi bi-arrow-left-circle" (click)="backToHome()"></i></a>
       </div>
-      <div class="col-sm-6 col-md-6 col-lg-6 edit" *ngIf="admin">
+      <div class="col-sm-6 col-md-6 col-lg-6 edit">
         <button class="btn btn-icon editBtn" (click)="saveAsPDF()"><i class="bi bi-download"></i></button>
-        <button class="btn btn-icon editBtn" (click)="editRecipe()" data-bs-toggle="modal" data-bs-target="#staticBackdrop2" *ngIf="!admin"><i class="bi bi-pencil-square"></i></button>
+        <button class="btn btn-icon editBtn" (click)="editRecipe()" data-bs-toggle="modal" data-bs-target="#staticBackdrop2" *ngIf="admin"><i class="bi bi-pencil-square"></i></button>
       </div>
     </div>
     <div >
@@ -22,7 +22,7 @@
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12">
               <button class="btn btn-icon btnHeart" (click)="addFavorite()" *ngIf="!favorite"><i class="bi bi-heart-fill heart"></i><br />Save</button>
-              <button class="btn btn-icon btnHeart saved" (click)="removeFavorite()" *ngIf="favorite"><i class="bi bi-heart-fill heart"></i><br />Save</button>
+              <button class="btn btn-icon btnHeart saved" (click)="removeFavorite()" *ngIf="favorite"><i class="bi bi-heart-fill heart"></i><br />Saved</button>
             </div>
           </div>
         </div>

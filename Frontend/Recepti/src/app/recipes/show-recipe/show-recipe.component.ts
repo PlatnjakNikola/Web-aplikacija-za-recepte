@@ -7,6 +7,7 @@ import domToImage from 'dom-to-image';
 //import moment from 'moment';
 import * as moment from 'moment';
 import html2canvas from 'html2canvas';
+import { AuthService } from 'src/app/services/auth.service'
 
 @Component({
   selector: 'app-show-recipe',
@@ -27,11 +28,12 @@ export class ShowRecipeComponent implements OnInit {
 
   @ViewChild('recipe-content', { static: false }) public dataToExport!: ElementRef;
 
-  constructor(private service: RecipesService, private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) { }
+  constructor(private service: RecipesService, private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef, private authService: AuthService) { }
 
 
   async ngOnInit(): Promise<void> {
-    this.admin = this.route.snapshot.params['admin'];
+    //this.admin = this.route.snapshot.params['admin'];
+    this.admin = this.authService.isAdmin();
     this.recipeId = this.route.snapshot.params['recipeId'];
 
     this.service.getFavoriteRecipes().subscribe(
