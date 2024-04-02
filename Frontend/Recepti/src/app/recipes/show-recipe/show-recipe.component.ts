@@ -13,21 +13,46 @@ export class ShowRecipeComponent implements OnInit {
   login: boolean = false;
   comment: string = "";
   open: boolean = false;
-  admin: boolean = true;
+  admin: boolean = false;
   edit: boolean = false;
-  id!: number | string;
+  recipeId!: number | string;
+  userId!: number | string;
+  favorite: boolean = false;
+  favoriteId!: number | string;
 
   constructor(private service: RecipesService, private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) { }
 
 
   async ngOnInit(): Promise<void> {
-    this.route.queryParams.subscribe(params => {
-      this.recipe = JSON.parse(params['recipe']);
-    });
-    
+    this.admin = this.route.snapshot.params['admin'];
+    this.recipeId = this.route.snapshot.params['recipeId'];
 
-    this.id = this.recipe.id;
-    this.recipe = await this.service.getRecipeById(this.id).toPromise();
+    this.service.getFavoriteRecipes().subscribe(
+      (favorites) => {
+        const favorite = favorites.find(favorite => favorite.recipeId === +this.recipeId);
+        if (favorite) {
+          this.favorite = true;
+          this.favoriteId = favorite.id;
+          //console.log(this.favoriteId);
+        } else {
+          this.favorite = false;
+          this.favoriteId = 0;
+        }
+
+        this.service.getRecipeById(this.recipeId).subscribe(
+          (response) => {
+            this.recipe = response;
+            console.log(this.recipe);
+          },
+          (error) => {
+            console.error('Error fetching recipe:', error);
+          }
+        );
+      },
+      (error) => {
+        console.error('Error fetching favorite recipes:', error);
+      }
+    );
   }
 
 
@@ -45,12 +70,27 @@ export class ShowRecipeComponent implements OnInit {
 
   addFavorite() {
     this.open = true;
+    this.service.addFavorite().subscribe();
+    this.favorite = true;
   }
+
+  removeFavorite() {
+    this.service.removeFavorite(this.favoriteId).subscribe(
+      () => {
+        this.favoriteId = 0;
+        this.favorite = false;
+      },
+      (error: any) => {
+        alert(error.error);
+      }
+    );
+  }
+
   editRecipe(){
     this.edit = true;
   }
 
   async modalClose() {
-    this.recipe = await this.service.getRecipeById(this.id).toPromise();
+    this.recipe = await this.service.getRecipeById(this.recipeId).toPromise();
   }
 }

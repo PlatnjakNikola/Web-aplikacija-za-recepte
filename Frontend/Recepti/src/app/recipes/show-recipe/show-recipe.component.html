@@ -20,7 +20,8 @@
             <br /><p><i class="bi bi-clock"></i> {{recipe.timeToPrepare}} minutes</p>
           </div>
           <div class="col-sm-12 col-md-12 col-lg-12">
-            <button class="btn btn-icon btnHeart" (click)="addFavorite()" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="bi bi-heart-fill heart"></i>  <br />Save</button>
+            <button class="btn btn-icon btnHeart" (click)="addFavorite()" *ngIf="!favorite"><i class="bi bi-heart-fill heart"></i><br />Save</button>
+            <button class="btn btn-icon btnHeart saved" (click)="removeFavorite()" *ngIf="favorite"><i class="bi bi-heart-fill heart"></i><br />Save</button>
           </div>
         </div>
       </div>

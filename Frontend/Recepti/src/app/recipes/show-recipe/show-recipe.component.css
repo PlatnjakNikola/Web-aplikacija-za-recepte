@@ -46,7 +46,7 @@ img{
   color: rgb(238, 238, 238);
   text-decoration: none;
 }
-.btnHeart:hover {
+.btnHeart:hover, .saved {
     color: red;
 }
 .btnHeart:focus{
