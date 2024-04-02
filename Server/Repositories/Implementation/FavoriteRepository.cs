@@ -52,6 +52,8 @@ namespace Server.Repositories.Implementation
             
             if (favoriteToDelete != null)
             {
+                appDbContext.Favorites.Remove(favoriteToDelete);
+
                 bool success = await appDbContext.SaveChangesAsync() > 0;
                 if (success)
                 {
