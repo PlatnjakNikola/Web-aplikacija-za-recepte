@@ -117,8 +117,35 @@ namespace Server.Controllers
             }
 
         }
+            
+        [HttpGet]
+        [Route("convertToAmerican")]
+        public async Task<IActionResult> ConvertUnitsToAmerican()
+        {
+            if (currentRecipe != null)
+            {
+                currentRecipe.Ingredients = UnitUtil.convertToAmerican(currentRecipe.Ingredients);
+                return Ok(currentRecipe);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
 
-        
-
+        [HttpGet]
+        [Route("convertFromAmerican")]
+        public async Task<IActionResult> ConvertUnitsFromAmerican()
+        {
+            if (currentRecipe != null)
+            {
+                currentRecipe.Ingredients = UnitUtil.convertFromAmerican(currentRecipe.Ingredients);
+                return Ok(currentRecipe);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

@@ -12,5 +12,5 @@ export class RecipesComponent {
 
   navigateToHome() {
     this.router.navigate(['/']);
-  }
+  } 
 }
