@@ -33,6 +33,7 @@
         <div class="row">
           <div class="col-sm-12 col-md-6 col-lg-4 col1">
             <div class="column">
+              <button class="btn btn-outline-dark" (click)="convertUnits()">Convert measurement units</button><br/>
               <p><b>Ingredients</b></p>
               <ul>
                 <li *ngFor="let ingredient of recipe.ingredients">{{ ingredient}}</li>
@@ -51,21 +52,7 @@
     </div>
   </div>
   <br />
-  <!--<div class="container">
-    <div>
-      <p><b>Comments</b></p>
-      <div class="row">
-        <div class="col-lg-10 form">
-          <input type="text" class="form-control" id="comment" name="comment"
-                 [disabled]="login==false" [(ngModel)]="comment" />
-        </div>
-        <div class="col-lg-1">
-          <button class="btn btn-primary">Post</button>
-        </div>
-      </div>
 
-    </div>
-  </div>-->
   <!------------------------------------------LOGIN---------------------------------------------------------------->
   <div class="login">
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"

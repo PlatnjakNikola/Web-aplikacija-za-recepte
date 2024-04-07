@@ -40,9 +40,6 @@ export class RecipesService {
     return this.http.delete(this.APIURL + `/Recipes/${id}`);
   }
   getFilteredRecipesList(search: string): Observable<any[]> {
-    /*const params = new HttpParams()
-      .set('searchString', search)*/
-
     return this.http.get<any>(this.APIURL + `/Recipes/search/${search}`);
   }
 
@@ -76,5 +73,11 @@ export class RecipesService {
     return this.http.delete(this.APIURL + `/Favorites/${id}`);
   }
 
+  convertToAmerican(): Observable<any[]> {
+    return this.http.get<any>(this.APIURL + '/Recipes/convertToAmerican', {});
+  }
+  convertFromAmerican(): Observable<any[]>{
+    return this.http.get<any>(this.APIURL + '/Recipes/convertFromAmerican', {});
+  }
 
 }
