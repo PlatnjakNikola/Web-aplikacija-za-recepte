@@ -13,7 +13,6 @@ namespace Server.Controllers
     {
         private readonly IUserRepository userRepository;
         private readonly IFavoriteRepository favoriteRepository;
-        public static User? currentUser;
 
         public UsersController(IUserRepository userRepository, IFavoriteRepository favoriteRepository)
         {
@@ -80,8 +79,6 @@ namespace Server.Controllers
                 }
             }
 
-            currentUser = loggedInUser;
-
             if (loggedInUser != null)
             {
                 return Ok(loggedInUser);
@@ -119,7 +116,7 @@ namespace Server.Controllers
             if (userToDelete != null)
             {
                 //Delete favorites
-                List<Favorite> favorites = await favoriteRepository.GetAllFromCurrentUserAsync();
+                List<Favorite> favorites = await favoriteRepository.GetAllFromCurrentUserAsync(Id);
                 foreach (Favorite f in favorites)
                 {
                     if (f.UserId == Id)

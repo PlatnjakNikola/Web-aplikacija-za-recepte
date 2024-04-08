@@ -40,7 +40,8 @@ namespace Server.Repositories.Implementation
                 TimeToPrepare = recipeToCreateDTO.TimeToPrepare,
                 Type = recipeToCreateDTO.Type,
                 Image = recipeToCreateDTO.Image,
-                Enabled = recipeToCreateDTO.Enabled
+                Enabled = recipeToCreateDTO.Enabled,
+                NumberOfFavorites = 0
             };
 
             await appDbContext.Recipes.AddAsync(recipe);
@@ -62,6 +63,7 @@ namespace Server.Repositories.Implementation
                 recipeToUpdate.Type = updatedRecipeDTO.Type;
                 recipeToUpdate.Image = updatedRecipeDTO.Image;
                 recipeToUpdate.Enabled = updatedRecipeDTO.Enabled;
+                recipeToUpdate.NumberOfFavorites = updatedRecipeDTO.NumberOfFavorites;
 
                 bool success = await appDbContext.SaveChangesAsync() > 0;
 
@@ -113,5 +115,22 @@ namespace Server.Repositories.Implementation
             return foundRecipes;
         }
 
+        public async void AddFavorite(int Id)
+        {
+            Recipe recipeToUpdate = await appDbContext.Recipes.FindAsync(Id);
+
+            recipeToUpdate.NumberOfFavorites++;
+
+            await appDbContext.SaveChangesAsync();
+        }
+
+        public async void RemoveFavorite(int Id)
+        {
+            Recipe recipeToUpdate = await appDbContext.Recipes.FindAsync(Id);
+
+            recipeToUpdate.NumberOfFavorites--;
+
+            await appDbContext.SaveChangesAsync();
+        }
     }
 }

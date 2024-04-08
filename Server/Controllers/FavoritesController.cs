@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Server.Models;
-using Server.Repositories.Implementation;
 using Server.Repositories.Interface;
 
 namespace Server.Controllers
@@ -9,25 +8,38 @@ namespace Server.Controllers
     [ApiController]
     public class FavoritesController : Controller
     {
+        private readonly IRecipeRepository recipeRepository;
         private readonly IFavoriteRepository favoriteRepository;
 
-        public FavoritesController(IFavoriteRepository favoriteRepository)
+        public FavoritesController(IFavoriteRepository favoriteRepository, IRecipeRepository recipeRepository)
         {
+            this.recipeRepository = recipeRepository;
             this.favoriteRepository = favoriteRepository;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddFavorite()
+        [HttpGet]
+        public async Task<IActionResult> GetAllFavorites()
         {
-            Favorite newFavorite = await favoriteRepository.CreateAsync(RecipesController.currentRecipe.Id, UsersController.currentUser.Id);
+            List<Favorite> allFavorites = await favoriteRepository.GetAllAsync();
+
+            return Ok(allFavorites);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddFavorite(FavoriteCreateDTO favoriteCreateDTO)
+        {
+            Favorite newFavorite = await favoriteRepository.CreateAsync(favoriteCreateDTO);
+
+            recipeRepository.AddFavorite(favoriteCreateDTO.RecipeId);
             
             return Ok(newFavorite);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllFavoritesFromCurrentUser()
+        [Route("{UserId}")]
+        public async Task<IActionResult> GetAllFavoritesFromCurrentUser(int UserId)
         {
-            List<Favorite> favorites = await favoriteRepository.GetAllFromCurrentUserAsync();
+            List<Favorite> favorites = await favoriteRepository.GetAllFromCurrentUserAsync(UserId);
 
             return Ok(favorites);
         }
@@ -36,7 +48,13 @@ namespace Server.Controllers
         [Route("{Id}")]
         public async Task<IActionResult> DeleteFavorite(int Id)
         {
+            Favorite? favorite = await favoriteRepository.GetByIdAsync(Id);
             Favorite? favoriteToDelete = await favoriteRepository.DeleteAsync(Id);
+
+            if (favorite != null)
+            {
+                recipeRepository.RemoveFavorite(favorite.RecipeId);
+            }
 
             if (favoriteToDelete != null)
             {
