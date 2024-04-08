@@ -43,8 +43,8 @@ export class RecipesListComponent implements OnInit {
   constructor(private service: RecipesService, private http: HttpClient, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.recipesList$ = this.service.getRecipesList();
-    this.recipesListNoFilter$ = this.service.getRecipesList();
+    this.recipesList$ = this.service.getRecipesListByFavorites();
+    this.recipesListNoFilter$ = this.service.getRecipesListByFavorites();
     if (this.authService.isLoggedIn()) {
       var user = this.authService.getUserData();
       this.id = user.id;
@@ -56,7 +56,7 @@ export class RecipesListComponent implements OnInit {
 
 
   modalClose() {
-    this.recipesList$ = this.service.getRecipesList();
+    this.recipesList$ = this.service.getRecipesListByFavorites();
     this.addEditRecipe.resetData();
   }
   addRecipe() {
@@ -83,7 +83,7 @@ export class RecipesListComponent implements OnInit {
 
   deleteRecipe() {
     this.service.deleteRecipe(this.recipeToDelete.id).subscribe(() => {
-      this.recipesList$ = this.service.getRecipesList();
+      this.recipesList$ = this.service.getRecipesListByFavorites();
     },
       (error: any) => {
         alert(error.error);
@@ -99,6 +99,7 @@ export class RecipesListComponent implements OnInit {
     this.service.getFilteredRecipesList(this.search).subscribe(
       (recipes: any) => {
         this.recipesList$ = of(recipes);
+        this.noRecipe = false;
       },
       (error: any) => {
         if (error.status === 404) {
@@ -112,18 +113,18 @@ export class RecipesListComponent implements OnInit {
   }
 
   home() {
-    this.recipesList$ = this.service.getRecipesList();
+    this.recipesList$ = this.service.getRecipesListByFavorites();
     this.search = "";
     this.showFavorite = false;
     this.noRecipe = false;
   }
 
-  onLoginSuccess(recipe: any) {
-    this.authService.login(recipe);
+  onLoginSuccess(user: any) {
+    this.authService.login(user);
     this.loginModalCloseButton.nativeElement.click();
-    this.id = recipe.id;
-    this.username = recipe.username;
-    this.admin = recipe.isAdmin;
+    this.id = user.id;
+    this.username = user.username;
+    this.admin = user.isAdmin;
     this.login = true;
   }
 
@@ -139,7 +140,7 @@ export class RecipesListComponent implements OnInit {
   async showFavorites() {
     this.showFavorite = true;
 
-    this.service.getFavoriteRecipes().subscribe(
+    this.service.getFavoriteRecipesByUserId(this.id).subscribe(
       (response) => {
         console.log(response);
 
@@ -147,7 +148,8 @@ export class RecipesListComponent implements OnInit {
           this.noRecipe = true;
           this.recipesList$ = of([]);
         }
-        else { 
+        else {
+          this.noRecipe = false;
           const requests = response.map(favorite => this.service.getRecipeById(favorite.recipeId));
           forkJoin(requests).subscribe(
             (recipes) => {

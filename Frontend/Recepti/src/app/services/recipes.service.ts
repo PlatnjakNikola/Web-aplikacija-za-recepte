@@ -27,6 +27,9 @@ export class RecipesService {
   getRecipesList(): Observable<any[]> {
     return this.http.get<any>(this.APIURL + '/Recipes');
   }
+  getRecipesListByFavorites(): Observable<any[]> {
+    return this.http.get<any>(this.APIURL + '/Recipes/sortByFavorites');
+  }
   getRecipeById(id: number | string): Observable<any> {
     return this.http.get<any>(this.APIURL + `/Recipes/${id}`);
   }
@@ -63,21 +66,25 @@ export class RecipesService {
     return this.http.post(this.APIURL + '/Users/login', login);
   }
 
-  addFavorite() {
-    return this.http.post(this.APIURL + '/Favorites', {});
+  //FAVORITES________________________
+  addFavorite(addFavorite: any) {
+    return this.http.post(this.APIURL + '/Favorites', addFavorite);
   }
   getFavoriteRecipes(): Observable<any[]>  {
     return this.http.get<any>(this.APIURL + '/Favorites');
+  }
+  getFavoriteRecipesByUserId(userId: number | string): Observable<any[]> {
+    return this.http.get<any>(this.APIURL + `/Favorites/${userId}`);
   }
   removeFavorite(id: number | string) {
     return this.http.delete(this.APIURL + `/Favorites/${id}`);
   }
 
-  convertToAmerican(): Observable<any[]> {
-    return this.http.get<any>(this.APIURL + '/Recipes/convertToAmerican', {});
+  convertToAmerican(id: number | string): Observable<any[]> {
+    return this.http.get<any>(this.APIURL + `/Recipes/convertToAmerican/${id}`);
   }
-  convertFromAmerican(): Observable<any[]>{
-    return this.http.get<any>(this.APIURL + '/Recipes/convertFromAmerican', {});
+  convertFromAmerican(id: number | string): Observable<any[]>{
+    return this.http.get<any>(this.APIURL + `/Recipes/convertFromAmerican/${id}`);
   }
 
 }

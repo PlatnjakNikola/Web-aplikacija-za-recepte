@@ -24,6 +24,7 @@ export class ShowRecipeComponent implements OnInit {
   edit: boolean = false;
   recipeId!: number | string;
   userId!: number | string;
+  user: any;
   favorite: boolean = false;
   favoriteId!: number | string;
   foundUnits: boolean = false;
@@ -35,9 +36,10 @@ export class ShowRecipeComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.admin = this.authService.isAdmin();
+    this.user = this.authService.getUserData();
     this.recipeId = this.route.snapshot.params['recipeId'];
-
-    this.service.getFavoriteRecipes().subscribe(
+    console.log("User: " + this.user);
+    this.service.getFavoriteRecipesByUserId(this.user.id).subscribe(
       (favorites) => {
         const favorite = favorites.find(favorite => favorite.recipeId === +this.recipeId);
         if (favorite) {
@@ -74,14 +76,23 @@ export class ShowRecipeComponent implements OnInit {
   }
 
   backToHome() {
-    //this.router.navigate(['/']);
     this.location.back();
   }
 
   addFavorite() {
     this.open = true;
-    this.service.addFavorite().subscribe();
+    const addFavorite = {
+      recipeId: this.recipeId,
+      userId: this.user.id
+    }
+    console.log(addFavorite);
+    this.service.addFavorite(addFavorite).subscribe(
+      (response:any) => {
+        this.favoriteId = response.id;
+        console.log(this.favoriteId);
+      });
     this.favorite = true;
+    this.recipe.numberOfFavorites++;
   }
 
   removeFavorite() {
@@ -89,6 +100,7 @@ export class ShowRecipeComponent implements OnInit {
       () => {
         this.favoriteId = 0;
         this.favorite = false;
+        this.recipe.numberOfFavorites--;
       },
       (error: any) => {
         alert(error.error);
@@ -171,11 +183,11 @@ export class ShowRecipeComponent implements OnInit {
     console.log(hasEuropeanUnits);
 
     if (hasEuropeanUnits) {
-      await this.service.convertToAmerican().subscribe(
+      await this.service.convertToAmerican(this.recipeId).subscribe(
         (response) => this.recipe = response)
     }
     else {
-      await this.service.convertFromAmerican().subscribe(
+      await this.service.convertFromAmerican(this.recipeId).subscribe(
         (response) => this.recipe = response)
     }
   }
