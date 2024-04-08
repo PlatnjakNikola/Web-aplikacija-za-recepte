@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RecipesService, Recipe } from '../../services/recipes.service';
+import { RecipesService } from '../../services/recipes.service';
 import jsPDF from 'jspdf';
 //import * as jsPDF from 'jspdf';
 import domToImage from 'dom-to-image';
@@ -25,14 +26,14 @@ export class ShowRecipeComponent implements OnInit {
   userId!: number | string;
   favorite: boolean = false;
   favoriteId!: number | string;
+  foundUnits: boolean = false;
 
   @ViewChild('recipe-content', { static: false }) public dataToExport!: ElementRef;
 
-  constructor(private service: RecipesService, private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef, private authService: AuthService) { }
+  constructor(private service: RecipesService, private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef, private authService: AuthService, private location : Location) { }
 
 
   async ngOnInit(): Promise<void> {
-    //this.admin = this.route.snapshot.params['admin'];
     this.admin = this.authService.isAdmin();
     this.recipeId = this.route.snapshot.params['recipeId'];
 
@@ -42,7 +43,6 @@ export class ShowRecipeComponent implements OnInit {
         if (favorite) {
           this.favorite = true;
           this.favoriteId = favorite.id;
-          //console.log(this.favoriteId);
         } else {
           this.favorite = false;
           this.favoriteId = 0;
@@ -74,7 +74,8 @@ export class ShowRecipeComponent implements OnInit {
   }
 
   backToHome() {
-    this.router.navigate(['/']);
+    //this.router.navigate(['/']);
+    this.location.back();
   }
 
   addFavorite() {
@@ -150,6 +151,33 @@ export class ShowRecipeComponent implements OnInit {
       doc.addImage(contentDataURL, 'JPEG', 10, 30, contentImgWidth, contentImgHeight);
       doc.save(this.recipe.title +'.pdf');
     });
+  }
+
+  async convertUnits() {
+    const europeanUnits = [
+      'kg', 'g', 'kilogram(me)?s?',
+      'gramm', 'gram(me)?s?',
+      'liter', 'lit(er)?s?', 'l',
+      'mililiter', 'mililit(er)?s?', 'ml',
+      'decilit(er)?s?', 'dl'
+    ];
+
+    const regex = new RegExp('\\b(' + europeanUnits.join('|') + ')\\b', 'gi');
+
+    const hasEuropeanUnits = this.recipe.ingredients.some((ingredient: string) => {
+      return regex.test(ingredient.toLowerCase());
+    });
+
+    console.log(hasEuropeanUnits);
+
+    if (hasEuropeanUnits) {
+      await this.service.convertToAmerican().subscribe(
+        (response) => this.recipe = response)
+    }
+    else {
+      await this.service.convertFromAmerican().subscribe(
+        (response) => this.recipe = response)
+    }
   }
 
 

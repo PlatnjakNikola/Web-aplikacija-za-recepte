@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService{
 
   private loggedIn = false;
   private user: any = null;
 
-  constructor() {
+  constructor(private router: Router) {
     this.loggedIn = localStorage.getItem('loggedIn') === 'true';
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
   }

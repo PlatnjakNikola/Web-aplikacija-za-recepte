@@ -68,7 +68,7 @@ namespace Server.Util
 
                     var result = string.Empty;
 
-                    result += amount;
+                    result += Math.Round(amount, 2);
                     result += " ";
                     result += unit;
                     result += restOfString;
@@ -147,10 +147,10 @@ namespace Server.Util
 
                         var result = string.Empty;
 
-                        result += amount;
-                        result += " ";
-                        result += unit;
-                        result += restOfString;
+                    result += Math.Round(amount, 2);
+                    result += " ";
+                    result += unit;
+                    result += restOfString;
 
                         ingredients.Add(result);
                     }

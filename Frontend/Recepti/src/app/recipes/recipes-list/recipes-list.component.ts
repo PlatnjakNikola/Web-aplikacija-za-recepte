@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, map, forkJoin } from 'rxjs';
 import { Recipe, RecipesService } from 'src/app/services/recipes.service';
@@ -66,7 +66,8 @@ export class RecipesListComponent implements OnInit {
   }
 
   showRecipe(recipeId:number|string) {
-    this.router.navigate(['/recipe', this.admin, recipeId]);
+    this.router.navigate(['/recipe', recipeId]);
+    //this.router.navigate(['/recipe', this.admin, recipeId]);
   }
   openLoginModal() {
     document.getElementById('staticBackdrop2')?.classList.add('show');
@@ -126,5 +127,10 @@ export class RecipesListComponent implements OnInit {
         );
       }
     );
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadHandler(event:any) {
+    this.authService.logout();
   }
 }
