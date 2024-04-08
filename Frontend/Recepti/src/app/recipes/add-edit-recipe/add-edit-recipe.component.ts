@@ -21,6 +21,8 @@ export class AddEditRecipeComponent implements OnInit {
   ingredientbackUp!: string;
   ingreditnt!: string;
   add: boolean = false;
+  showErrorMessage: boolean = false;
+  errorMessage: string = "";
   recipeTypes:String[] = ["Breakfast", "Lunch", "Dinner", "Appetizer", "Salad", "Main-course", "Side-dish", "Baked-goods", "Dessert", "Snack", "Soup", "Holiday", "Vegetarian"];
   constructor(private service: RecipesService, private storage: AngularFireStorage) { }
 
@@ -97,18 +99,8 @@ export class AddEditRecipeComponent implements OnInit {
 
     this.recipe.ingredients = this.ingredients.trim().split('\n').filter((ingredient: string) => ingredient !== '')
    
-    console.log(this.recipe.ingredients);
-
-   /*var recipe = {
-      title: this.recipe.title,
-      ingredients: this.recipe.ingredients,
-      description: this.recipe.description,
-      timeToPrepare: this.recipe.timeToPrepare,
-      type: this.recipe.type,
-      image: this.recipe.image,
-      enabled: true
-    }*/
-    console.log(this.recipe);
+   // console.log(this.recipe.ingredients);
+   // console.log(this.recipe);
 
     if (JSON.stringify(this.recipe) !== JSON.stringify(this.recipeEdit)) {
       this.service.updateRecipe(this.recipe.id, this.recipe).subscribe(() => {
@@ -118,9 +110,11 @@ export class AddEditRecipeComponent implements OnInit {
         });
     }
     else {
-      console.log("no changes were made")
+      this.showErrorMessage = true;
+      this.errorMessage = "No changes were made";
     }
   }
+
   async addRecipe(): Promise<void> {
     if (this.file) {
       await this.uploadFile(this.file);
@@ -128,13 +122,32 @@ export class AddEditRecipeComponent implements OnInit {
     else {
       this.recipe.image = "https://firebasestorage.googleapis.com/v0/b/web-aplikacija-za-recept-c7e86.appspot.com/o/default.jpg?alt=media&token=414cf1ee-da7a-4bbb-a7c1-83acc126b8c4";
     }
-    this.recipe.enabled = true;
-    this.recipe.ingredients = this.ingredients.trim().split('\n').filter((ingredient: string) => ingredient !== '')
-    this.service.addRecipe(this.recipe).subscribe(() => {
-    },
-      (error: any) => {
-        alert(error.error);
-      });
+
+    if (this.recipe.title !== "" && this.recipe.ingredients !== "" && this.recipe.description !== "" && this.recipe.type !== "") {
+      this.recipe.enabled = true;
+      this.recipe.ingredients = this.ingredients.trim().split('\n').filter((ingredient: string) => ingredient !== '');
+      console.log(this.recipe.ingredients);
+      this.service.addRecipe(this.recipe).subscribe(() => {
+        this.resetData();
+      },
+        (error: any) => {
+          alert(error.error);
+          console.log(error.error);
+        });
+    }
+    else {
+      this.errorMessage = "All fields must be filled in!";
+      this.showErrorMessage = true;
+    }
+  }
+
+  resetData() {
+    this.recipe.title = "";
+    this.recipe.description = "";
+    this.recipe.ingredients = "";
+    this.recipe.timeToPrepare = 0;
+    this.recipe.type = "";
+    this.showErrorMessage = false;
   }
 
   

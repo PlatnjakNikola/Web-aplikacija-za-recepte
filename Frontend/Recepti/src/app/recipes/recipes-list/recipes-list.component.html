@@ -19,7 +19,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#" (click) ="home()">Home</a>
+      <a class="navbar-brand" href="#" (click)="home()">Home</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -42,7 +42,7 @@
           </li>
         </ul>
         <form class="d-flex">
-          <input class="form-control me-2" type="text" placeholder="Search" name="search" id="search" [(ngModel)]="search" [disabled]="!login"> 
+          <input class="form-control me-2" type="text" placeholder="Search" name="search" id="search" [(ngModel)]="search" [disabled]="!login">
           <button class="btn btn-outline-success searchbtn" type="submit" (click)="searchRecipe()" [disabled]="!login">Search</button>
         </form>
       </div>
@@ -55,21 +55,20 @@
 
   <div class="container">
     <div class="row">
-      <div *ngIf ="showFavorite" class="favorite">
+      <div *ngIf="showFavorite" class="favorite">
         <h2>Favorites</h2>
         <br />
       </div>
+      <h2 *ngIf="noRecipe" class="noRecipe">There are no recipes</h2>
       <ng-container *ngFor="let recipe of recipesList$ | async">
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 column" *ngIf="recipe.enabled" [ngClass]="{'blurred': !login}">
-          <button class="btn btn-icon trashBtn" (click)="deleteRecipe(recipe)" *ngIf="admin"><i class="bi bi-trash3"></i></button>
+          <button class="btn btn-icon trashBtn" data-bs-toggle="modal" data-bs-target="#deleteRecipeModal" (click)="setRecipeToDelete(recipe)" *ngIf="admin"><i class="bi bi-trash3"></i></button>
           <div class="recipe-card" (click)="showRecipe(recipe.id)" *ngIf="login">
-            <!--<div class="recipe-card" (click) = "showRecipe()" [routerLink]="['/recipe', recipe.id]">-->
             <p class="recipe-title"><b>{{recipe.title}}</b></p>
             <img src={{recipe.image}} />
           </div>
 
           <div class="recipe-card" *ngIf="!login" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
-            <!--<div class="recipe-card" (click) = "showRecipe()" [routerLink]="['/recipe', recipe.id]">-->
             <p class="recipe-title"><b>{{recipe.title}}</b></p>
             <img src={{recipe.image}} />
           </div>
@@ -81,13 +80,13 @@
   <!------------------------------------------LOGIN---------------------------------------------------------------->
   <div class="login">
     <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false"
-         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true"  #loginModal>
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" #loginModal>
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="staticBackdropLabel">Welcome</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    id="login-modal-close" #loginModalCloseButton></button>
+                    id="login-modal-close" #loginModalCloseButton (click)="closeModal()"></button>
           </div>
           <div class="modal-body">
             <app-login *ngIf="login == false" (loginSuccess)="onLoginSuccess($event)"></app-login>
@@ -109,6 +108,25 @@
         </div>
         <div class="modal-body">
           <app-add-edit-recipe [recipeEdit]="recipe" *ngIf="admin && add"></app-add-edit-recipe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!------------------------------------------DELETE RECIPE--------------------------------------------------------->
+  <div class="modal fade" id="deleteRecipeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete recipe</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #deleteModalCloseButton></button>
+        </div>
+        <div class="modal-body deleteModalText">
+          <p>Are you sure you want to remove this recipe?</p>
+        </div>
+        <div class="modal-footer deleteModalText">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          <button type="button" class="btn btn-primary" (click)="deleteRecipe()">Yes</button>
         </div>
       </div>
     </div>

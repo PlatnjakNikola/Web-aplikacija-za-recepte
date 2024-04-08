@@ -1,5 +1,6 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { RecipesService } from 'src/app/services/recipes.service'
+import { FormControl, Validators } from '@angular/forms';
 
 
 interface LoginResponseSuccess {
@@ -9,7 +10,6 @@ interface LoginResponseSuccess {
   password: string;
   isAdmin: boolean;
 }
-
 interface LoginResponseError {
   type: string;
   title: string;
@@ -26,15 +26,16 @@ type LoginResponse = LoginResponseSuccess | LoginResponseError;
 })
 
 export class LoginRegisterComponent {
-
-  firstName: String = "";
-  lastName: string = "";
   username: string = "";
   email: string = "";
   password: string = "";
   confirm_password: string = "";
   loginPage: boolean = true;
   usernameOrEmail: string = "";
+  showErrorMessage: boolean = false;
+  errorMessage: string = "";
+  //allFieldsRequired: boolean = false;
+
 
   //@Output() loginSuccess: EventEmitter<void> = new EventEmitter<void>();
   @Output() loginSuccess: EventEmitter<LoginResponseSuccess> = new EventEmitter<LoginResponseSuccess>();
@@ -46,6 +47,7 @@ export class LoginRegisterComponent {
     this.email = "";
     this.password = "";
   }
+
   showLogin() {
     this.loginPage = true;
     this.email = "";
@@ -58,33 +60,39 @@ export class LoginRegisterComponent {
       password: this.password
     }
     console.log(login);
-    this.service.loginUser(login).subscribe(
-      (response) => {
-        console.log(response); 
+    if (this.usernameOrEmail !== "" && this.password !== "") {
+      this.service.loginUser(login).subscribe(
+        (response) => {
+          console.log(response);
 
-        if ('id' in response) {
-          this.loginPage = true;
-          this.firstName = "";
-          this.lastName = "";
-          this.username = "";
-          this.email = "";
-          this.password = "";
-          this.confirm_password = "";
-          this.loginPage = true;
-          this.usernameOrEmail = "";
-          this.loginSuccess.emit(response as LoginResponseSuccess);
-        } else {
-          console.error('Prijava nije uspjela. Greška:', (response as any).title);
+          if ('id' in response) {
+            this.resetData();
+            this.loginSuccess.emit(response as LoginResponseSuccess);
+          } else {
+            this.showErrorMessage = true;
+            //console.error('Prijava nije uspjela. Greška:', (response as any).title);
+          }
+        },
+        (error) => {
+          // Greška prilikom komunikacije s serverom
+          this.errorMessage = "Invalid username or password. Please try again.";
+          this.showErrorMessage = true;
+          console.error('Došlo je do greške prilikom prijave:', error);
         }
-      },
-      (error) => {
-        // Greška prilikom komunikacije s serverom
-        console.error('Došlo je do greške prilikom prijave:', error);
-      }
-    );
+      );
+    }
+    else {
+      this.errorMessage = "All fields must be filled in."
+      this.showErrorMessage = true;
+    }
   }
 
   async register(): Promise<void> {
+    const emailFormControl = new FormControl(this.email, [
+      Validators.required,
+      Validators.email
+    ]);
+
     if (this.confirm_password === this.password && this.username !== "" && this.email !== "" && this.password !== "") {
       var user = {
         username: this.username,
@@ -95,19 +103,33 @@ export class LoginRegisterComponent {
       }
       console.log(user);
       await this.service.addUser(user).subscribe(() => {
-        this.loginPage = true;
-        this.firstName= "";
-        this.lastName = "";
-        this.username = "";
-        this.email= "";
-        this.password= "";
-        this.confirm_password= "";
-        this.loginPage= true;
-        this.usernameOrEmail = "";
+        this.resetData();
       },
         (error: any) => {
           alert(error.error);
         });
-    };
+    }
+    else if (this.username !== "" || this.email !== "" || this.password !== "" || this.confirm_password !== "") {
+      this.errorMessage = "All fields must be filled in.";
+      this.showErrorMessage = true;
+    }
+    else if (this.confirm_password === this.password) {
+      this.errorMessage = "Passwords aren't the same!";
+      this.showErrorMessage = true;
+    }
+    else if (!emailFormControl.valid) {
+      this.errorMessage = "Invalid email";
+      this.showErrorMessage = true;
+    }
+  }
+
+  resetData() {
+    this.loginPage = true;
+    this.username = "";
+    this.email = "";
+    this.password = "";
+    this.confirm_password = "";
+    this.usernameOrEmail = "";
+    this.showErrorMessage = false;
   }
 }

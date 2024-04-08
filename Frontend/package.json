@@ -2,9 +2,11 @@
   "dependencies": {
     "@angular/common": "^17.2.4",
     "@angular/fire": "^17.0.1",
+    "@types/jquery": "^3.5.29",
     "bootstrap-icons": "^1.11.3",
     "dom-to-image": "^2.6.0",
     "firebase": "^10.9.0",
+    "jquery": "^3.7.1",
     "jspdf": "^2.5.1",
     "moment": "^2.30.1",
     "uuid": "^9.0.1"

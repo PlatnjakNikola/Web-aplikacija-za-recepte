@@ -1,14 +1,7 @@
 <form>
-  <!--<div class="input" *ngIf="!loginPage">
-    <label for="firstName" class="form-label">First name: </label>
-    <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="firstName" />
+  <div *ngIf="showErrorMessage" class="alert alert-danger" role="alert">
+    {{errorMessage}}
   </div>
-
-  <div class="input" *ngIf="!loginPage">
-    <label for="lastName" class="form-label">Last name: </label>
-    <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="lastName" />
-  </div>-->
-
   <div class="input" *ngIf="!loginPage">
     <label for="username" class="form-label col-sm-2">Username: </label>
     <input type="text" class="form-control" id="username" name="username" [(ngModel)]="username" />
@@ -39,6 +32,4 @@
     <button class="btn btn-outline-primary me-2 mb-1 btn-login" (click)="register()">Register</button>
     <p>Have an account? <button class="btn btn-icon btn-register" (click)="showLogin()">Login</button></p>
   </div>
-
-
 </form>

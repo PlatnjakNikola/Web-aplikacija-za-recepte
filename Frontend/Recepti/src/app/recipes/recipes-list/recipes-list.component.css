@@ -110,6 +110,13 @@ img {
 .favorite{
     text-align:left;
 }
+.deleteModalText{
+    padding: 0.5rem 1rem;
+}
+.noRecipe{
+    font-family:'Bodoni MT';
+    font-style:italic;
+}
 /*@media screen and (min-width: 2500px) {
   .container{
       max-width:2500px

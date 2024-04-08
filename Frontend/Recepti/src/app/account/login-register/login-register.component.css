@@ -28,5 +28,9 @@ input, input:focus {
   color: white;
 }
 
+.alert {
+  padding: 0.5rem 1rem;
+}
+
 
 
