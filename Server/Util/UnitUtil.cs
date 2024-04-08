@@ -49,6 +49,21 @@ namespace Server.Util
                         amount = amount / 236.5882;
                         unit = "cups";
                     }
+                    else if (unit == "dl" && amount < 2.3)
+                    {
+                        amount = amount / 0.2957;
+                        unit = "floz";
+                    }
+                    else if (unit == "dl")
+                    {
+                        amount = amount / 2.3659;
+                        unit = "cups";
+                    }
+                    else if (unit == "l")
+                    {
+                        amount = amount / 0.2366;
+                        unit = "cups";
+                    }
 
 
                     var result = string.Empty;
@@ -76,70 +91,79 @@ namespace Server.Util
 
             foreach (string ing in ingredientsIn)
             {
+                
                 string[] words = ing.Split(' ');
-                string amountString = words[0];
-                double amount;
-                double.TryParse(amountString, out amount);
-                string unit = words[1];
-                string restOfString = ing.Substring(amountString.Length + unit.Length + 1);
-
-                if (amount != 0)
+                if (words.Length > 2)
                 {
-                    if (unit == "lb")
-                    {
-                        amount = amount * 0.4536;
-                        unit = "kg";
-                    }
-                    else if (unit == "oz")
-                    {
-                        amount = amount * 28.3495;
-                        unit = "g";
-                    }
-                    else if (unit == "tbsp" || unit == "tablespoons" || unit == "tablespoon")
-                    {
-                        amount = amount * 14.7867;
-                        unit = "ml";
-                    }
-                    else if (unit == "tsp" || unit == "teaspoons" || unit == "teaspoon")
-                    {
-                        amount = amount * 4.9289;
-                        unit = "ml";
-                    }
-                    else if (unit == "floz")
-                    {
-                        amount = amount * 29.5735;
-                        unit = "ml";
-                    }
-                    else if (unit == "cups")
-                    {
-                        amount = amount * 236.5882;
-                        unit = "ml";
-                    }
+                    string amountString = words[0];
+                    double amount;
+                    double.TryParse(amountString, out amount);
+                    string unit = words[1];
+                    string restOfString = ing.Substring(amountString.Length + unit.Length + 1);
 
-                    if (unit == "ml" && amount > 1000)
+                    if (amount != 0)
                     {
-                        unit = "l";
-                        amount = amount / 1000.0;
+                        if (unit == "lb")
+                        {
+                            amount = amount * 0.4536;
+                            unit = "kg";
+                        }
+                        else if (unit == "oz")
+                        {
+                            amount = amount * 28.3495;
+                            unit = "g";
+                        }
+                        else if (unit == "tbsp" || unit == "tablespoons" || unit == "tablespoon")
+                        {
+                            amount = amount * 14.7867;
+                            unit = "ml";
+                        }
+                        else if (unit == "tsp" || unit == "teaspoons" || unit == "teaspoon")
+                        {
+                            amount = amount * 4.9289;
+                            unit = "ml";
+                        }
+                        else if (unit == "floz")
+                        {
+                            amount = amount * 29.5735;
+                            unit = "ml";
+                        }
+                        else if (unit == "cups")
+                        {
+                            amount = amount * 236.5882;
+                            unit = "ml";
+                        }
+
+                        if (unit == "ml" && amount > 1000)
+                        {
+                            unit = "l";
+                            amount = amount / 1000.0;
+                        }
+                        if (unit == "g" && amount > 1000)
+                        {
+                            unit = "kg";
+                            amount = amount / 1000.0;
+                        }
+
+                        var result = string.Empty;
+
+                        result += amount;
+                        result += " ";
+                        result += unit;
+                        result += restOfString;
+
+                        ingredients.Add(result);
                     }
-                    if (unit == "g" && amount > 1000)
+                    else
                     {
-                        unit = "kg";
-                        amount = amount / 1000.0;
+                        ingredients.Add(ing);
                     }
-
-                    var result = string.Empty;
-
-                    result += amount;
-                    result += " ";
-                    result += unit;
-                    result += restOfString;
-
-                    ingredients.Add(result);
                 }
                 else
                 {
                     ingredients.Add(ing);
                 }
+
             }
 
             return ingredients;

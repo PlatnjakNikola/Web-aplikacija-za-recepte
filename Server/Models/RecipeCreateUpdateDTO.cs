@@ -15,5 +15,7 @@
         public string? Image { get; set; }
 
         public bool Enabled { get; set; }
+
+        public int? NumberOfFavorites { get; set; }
     }
 }

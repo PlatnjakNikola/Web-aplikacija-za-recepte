@@ -10,5 +10,7 @@ namespace Server.Repositories.Interface
         Task<Recipe> UpdateAsync(int Id, RecipeCreateUpdateDTO updatedRecipeDTO);
         Task<Recipe> DeleteAsync(int Id);
         Task<List<Recipe>?> GetByTitleAsync(string title);
+        void AddFavorite(int Id);
+        void RemoveFavorite(int Id);
     }
 }

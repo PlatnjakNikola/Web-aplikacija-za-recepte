@@ -3,6 +3,7 @@ using Server.Controllers;
 using Server.Data;
 using Server.Models;
 using Server.Repositories.Interface;
+using System.Numerics;
 
 namespace Server.Repositories.Implementation
 {
@@ -15,13 +16,13 @@ namespace Server.Repositories.Implementation
             this.appDbContext = appDbContext;
         }
 
-        public async Task<Favorite> CreateAsync(int RecipeId, int UserId)
+        public async Task<Favorite> CreateAsync(FavoriteCreateDTO favoriteCreateDTO)
         {
             var favorite = new Favorite()
             {
                 Id = 0,
-                RecipeId = RecipeId,
-                UserId = UserId
+                RecipeId = favoriteCreateDTO.RecipeId,
+                UserId = favoriteCreateDTO.UserId
             };
 
             await appDbContext.Favorites.AddAsync(favorite);
@@ -29,21 +30,50 @@ namespace Server.Repositories.Implementation
 
             return favorite;
         }
+        public async Task<List<Favorite>> GetAllAsync()
+        {
+            List<Favorite> allFavorites = await appDbContext.Favorites.ToListAsync();
 
-        public async Task<List<Favorite>> GetAllFromCurrentUserAsync()
+            return allFavorites;
+        }
+
+        public async Task<Favorite> GetByIdAsync(int Id)
+        {
+            Favorite? favorite = await appDbContext.Favorites.FindAsync(Id);
+
+            return favorite;
+        }
+
+        public async Task<List<Favorite>> GetAllFromCurrentUserAsync(int Id)
         {
             List<Favorite> allFavorites = await appDbContext.Favorites.ToListAsync();
             List<Favorite> usersFavorites = new List<Favorite>();
 
             for (int i = 0; i < allFavorites.Count; i++)
             {
-                if (allFavorites[i].UserId == UsersController.currentUser.Id)
+                if (allFavorites[i].UserId == Id)
                 {
                     usersFavorites.Add(allFavorites[i]);
                 }
             }
 
             return usersFavorites;
+        }
+
+        public async Task<List<Favorite>> GetAllFromRecipeAsync(int Id)
+        {
+            List<Favorite> allFavorites = await appDbContext.Favorites.ToListAsync();
+            List<Favorite> recipeFavorites = new List<Favorite>();
+
+            for (int i = 0; i < allFavorites.Count; i++)
+            {
+                if (allFavorites[i].RecipeId == Id)
+                {
+                    recipeFavorites.Add(allFavorites[i]);
+                }
+            }
+
+            return recipeFavorites;
         }
 
         public async Task<Favorite> DeleteAsync(int Id)

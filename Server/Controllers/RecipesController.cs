@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using Server.Models;
 using Server.Repositories.Interface;
-using Microsoft.EntityFrameworkCore;
 using Server.Util;
 
 namespace Server.Controllers
@@ -13,8 +11,6 @@ namespace Server.Controllers
     {
         private readonly IRecipeRepository recipeRepository;
         private readonly IFavoriteRepository favoriteRepository;
-        private bool americanUnits;
-        public static Recipe? currentRecipe;
 
         public RecipesController(IRecipeRepository recipeRepository, IFavoriteRepository favoriteRepository)
         {
@@ -29,14 +25,22 @@ namespace Server.Controllers
 
             return Ok(allRecipes);
         }
-            
+
+        [HttpGet]
+        [Route("sortByFavorites")]
+        public async Task<IActionResult> GetAllRecipesByFavorites()
+        {
+            List<Recipe> allRecipes = await recipeRepository.GetAllAsync();
+            List<Recipe> sortedRecipes = allRecipes.OrderByDescending(o => o.NumberOfFavorites).ToList();
+
+            return Ok(sortedRecipes);
+        }
+
         [HttpGet]
         [Route("{Id}")]
         public async Task<IActionResult> GetRecipeById(int Id)
         {
             Recipe? recipe = await recipeRepository.GetByIdAsync(Id);
-
-            currentRecipe = recipe;
 
             if (recipe != null)
             {
@@ -84,7 +88,7 @@ namespace Server.Controllers
             if (recipeToDelete != null)
             {
                 //Delete favorites
-                List<Favorite> favorites = await favoriteRepository.GetAllFromCurrentUserAsync();
+                List<Favorite> favorites = await favoriteRepository.GetAllFromRecipeAsync(Id);
                 foreach (Favorite f in favorites)
                 {
                     if (f.RecipeId == Id)
@@ -117,15 +121,17 @@ namespace Server.Controllers
             }
 
         }
-            
+        
         [HttpGet]
-        [Route("convertToAmerican")]
-        public async Task<IActionResult> ConvertUnitsToAmerican()
+        [Route("convertToAmerican/{Id}")]
+        public async Task<IActionResult> ConvertUnitsToAmerican(int Id)
         {
-            if (currentRecipe != null)
+            Recipe? recipe = await recipeRepository.GetByIdAsync(Id); 
+
+            if (recipe != null)
             {
-                currentRecipe.Ingredients = UnitUtil.convertToAmerican(currentRecipe.Ingredients);
-                return Ok(currentRecipe);
+                recipe.Ingredients = UnitUtil.convertToAmerican(recipe.Ingredients);
+                return Ok(recipe);
             }
             else
             {
@@ -134,13 +140,15 @@ namespace Server.Controllers
         }
 
         [HttpGet]
-        [Route("convertFromAmerican")]
-        public async Task<IActionResult> ConvertUnitsFromAmerican()
+        [Route("convertFromAmerican/{Id}")]
+        public async Task<IActionResult> ConvertUnitsFromAmerican(int Id)
         {
-            if (currentRecipe != null)
+            Recipe? recipe = await recipeRepository.GetByIdAsync(Id);
+
+            if (recipe != null)
             {
-                currentRecipe.Ingredients = UnitUtil.convertFromAmerican(currentRecipe.Ingredients);
-                return Ok(currentRecipe);
+                recipe.Ingredients = UnitUtil.convertFromAmerican(recipe.Ingredients);
+                return Ok(recipe);
             }
             else
             {
