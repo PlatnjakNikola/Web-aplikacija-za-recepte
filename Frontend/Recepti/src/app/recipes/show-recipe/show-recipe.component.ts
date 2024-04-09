@@ -150,9 +150,11 @@ export class ShowRecipeComponent implements OnInit {
 
     doc.setFontSize(16);
     doc.setTextColor(80, 77, 78);
-    doc.text(titleText, 10, 10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(titleText, 10, 20);
     doc.setFontSize(12);
-    doc.text(timeToPrepare, 10, 20);
+    doc.setFont('helvetica', 'normal');
+    doc.text(timeToPrepare, 10, 30);
    // doc.addImage(this.recipe.image, 'JPEG', 10, 30, 100, 90);
 
     html2canvas(data).then((canvasContent) => {
@@ -160,7 +162,7 @@ export class ShowRecipeComponent implements OnInit {
 
       const contentImgWidth = 208;
       const contentImgHeight = canvasContent.height * contentImgWidth / canvasContent.width;
-      doc.addImage(contentDataURL, 'JPEG', 10, 30, contentImgWidth, contentImgHeight);
+      doc.addImage(contentDataURL, 'JPEG', 5, 40, contentImgWidth, contentImgHeight);
       doc.save(this.recipe.title +'.pdf');
     });
   }

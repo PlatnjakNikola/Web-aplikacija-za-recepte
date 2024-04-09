@@ -144,7 +144,10 @@ pre {
   padding-bottom: 0px;
 }
 
-/*.editText {
+.content[_ngcontent-ng-c2616692150] {
+  padding-top: 0px;
+}
+  /*.editText {
   padding: 6px;
   border: 1px solid #ccc;
   background: none;
