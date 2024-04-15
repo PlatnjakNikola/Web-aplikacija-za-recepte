@@ -7,6 +7,9 @@ import { share, tap, finalize } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service'
 import { LoginRegisterComponent } from 'src/app/account/login-register/login-register.component';
 import { AddEditRecipeComponent } from 'src/app/recipes/add-edit-recipe/add-edit-recipe.component';
+import { ViewportScroller } from '@angular/common';
+declare var $: any;
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-recipes-list',
@@ -36,13 +39,16 @@ export class RecipesListComponent implements OnInit {
 
   @ViewChild('loginModalCloseButton') loginModalCloseButton!: ElementRef;
   @ViewChild('deleteModalCloseButton') deleteConfirmationModal!: ElementRef;
+  @ViewChild('#loginButton') loginButton!: ElementRef;
   @ViewChild('loginModal') loginModal!: ElementRef;
   @ViewChild(LoginRegisterComponent) appLogin!: LoginRegisterComponent;
   @ViewChild(AddEditRecipeComponent) addEditRecipe!: AddEditRecipeComponent;
+  @ViewChild('staticBackdrop2') modal!: ElementRef;
 
-  constructor(private service: RecipesService, private http: HttpClient, private router: Router, private authService: AuthService) { }
+  constructor(private service: RecipesService, private http: HttpClient, private router: Router, private authService: AuthService) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    //const modalBackdrop = document.getElementById('staticBackdrop2');
     this.recipesList$ = this.service.getRecipesListByFavorites();
     this.recipesListNoFilter$ = this.service.getRecipesListByFavorites();
     if (this.authService.isLoggedIn()) {
@@ -51,6 +57,8 @@ export class RecipesListComponent implements OnInit {
       this.username = user.username;
       this.login = true;
       this.admin = user.isAdmin;
+    }
+    else {
     }
   }
 

@@ -122,6 +122,27 @@ img {
       max-width:2500px
   }
 }*/
+.myModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1055;
+  width: 100%;
+  height: 100%;
+  outline: 0;
+  transition: transform .3s ease-out;
+}
+.myModal::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1; 
+}
+
 @media all and (min-width: 1500px) {
   .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
     max-width: 100%;

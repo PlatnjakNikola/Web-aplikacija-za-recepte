@@ -26,7 +26,7 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <button class="btn btn-icon addbtn add" (click)="addRecipe()" data-bs-toggle="modal" data-bs-target="#staticBackdrop2" *ngIf="!login">Login</button>
+            <button class="btn btn-icon addbtn add" (click)="addRecipe()" data-bs-toggle="modal" data-bs-target="#staticBackdrop2" *ngIf="!login" #loginButton>Login</button>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" *ngIf="login">{{username}}</a>
@@ -78,15 +78,15 @@
   </div>
 
   <!------------------------------------------LOGIN---------------------------------------------------------------->
-  <div class="login">
-    <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false"
-         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" #loginModal>
+  <div class="login" *ngIf="!login" #top>
+    <div class="myModal" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false"
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="false" #loginModal>
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="staticBackdropLabel">Welcome</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    id="login-modal-close" #loginModalCloseButton (click)="closeModal()"></button>
+            <button [hidden]="true" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    id="login-modal-close" #loginModalCloseButton (click)="closeModal()" ></button>
           </div>
           <div class="modal-body">
             <app-login *ngIf="login == false" (loginSuccess)="onLoginSuccess($event)"></app-login>
@@ -95,7 +95,6 @@
       </div>
     </div>
   </div>
-
   <!------------------------------------------EDIT---------------------------------------------------------------->
   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

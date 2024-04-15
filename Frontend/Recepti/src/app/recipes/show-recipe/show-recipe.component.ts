@@ -116,29 +116,6 @@ export class ShowRecipeComponent implements OnInit {
     this.recipe = await this.service.getRecipeById(this.recipeId).toPromise();
   }
 
-  /*async saveAsPDF() {
-    const data1: any = document.getElementById('recipeTitle');
-    const data: any = document.getElementById('recipe-content'); // Id of the table
-    await html2canvas(data).then((canvas) => {
-      // Get canvas data URL
-      const contentDataURL = canvas.toDataURL('image/jpeg');
-
-      // Create PDF document
-      const doc = new jsPDF('p', 'mm', 'a4');
-      const imgWidth = 208;
-      const imgHeight = canvas.height * imgWidth / canvas.width;
-
-      // Add image to PDF
-      doc.addImage(contentDataURL, 'JPEG', 0, 0, imgWidth, imgHeight);
-
-      // Add text to PDF
-      doc.setFontSize(16);
-      doc.setTextColor(80, 77, 78);
-
-      doc.save('recipe.pdf');
-    });
-  }*/
-
   async saveAsPDF() {
     const titleElement: any = document.getElementById('recipeTitle');
     const data: any = document.getElementById('recipe-content');

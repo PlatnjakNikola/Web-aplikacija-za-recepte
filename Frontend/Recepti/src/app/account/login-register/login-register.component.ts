@@ -34,10 +34,7 @@ export class LoginRegisterComponent {
   usernameOrEmail: string = "";
   showErrorMessage: boolean = false;
   errorMessage: string = "";
-  //allFieldsRequired: boolean = false;
 
-
-  //@Output() loginSuccess: EventEmitter<void> = new EventEmitter<void>();
   @Output() loginSuccess: EventEmitter<LoginResponseSuccess> = new EventEmitter<LoginResponseSuccess>();
 
   constructor(private service: RecipesService) { }

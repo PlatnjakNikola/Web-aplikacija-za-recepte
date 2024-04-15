@@ -23,11 +23,20 @@ export class AddEditRecipeComponent implements OnInit {
   add: boolean = false;
   showErrorMessage: boolean = false;
   errorMessage: string = "";
+  showMessage: boolean = false;
+  message: string = "";
   recipeTypes:String[] = ["Breakfast", "Lunch", "Dinner", "Appetizer", "Salad", "Main-course", "Side-dish", "Baked-goods", "Dessert", "Snack", "Soup", "Holiday", "Vegetarian"];
   constructor(private service: RecipesService, private storage: AngularFireStorage) { }
 
   @Input() recipeEdit!: any;
-  //@Output() updateRecipeEvent: EventEmitter<any> = new EventEmitter<void>();
+
+  @Input() scrollToTop!: () => void;
+
+  callScrollToTop() {
+    if (this.scrollToTop) {
+      this.scrollToTop();
+    }
+  }
 
   ngOnInit() {
     this.recipe = { ...this.recipeEdit };
@@ -41,32 +50,6 @@ export class AddEditRecipeComponent implements OnInit {
   onSelectFile(event: any) {
     this.file = event.target.files[0];
   }
-
-  /*async uploadFile(file: File): Promise<void> {
-    console.log('Hi!');
-    const desertRef = ref(getStorage(), this.recipe.image);
-    /*deleteObject(desertRef)
-      .then(() => {
-        console.log('Image deleted successfully!');*/
-        /*const storageRef = ref(getStorage(), `image${this.id}`);
-    const uploadTask = uploadBytes(storageRef, file);
-    console.log('Hi3!');
-
-        try {
-          const snapshot = await uploadTask;
-          console.log('Image uploaded successfully!');
-          const downloadURL = await getDownloadURL(snapshot.ref);
-          this.recipe.image = downloadURL;
-          console.log('Download URL:', downloadURL);
-        } catch (error) {
-          console.error('Error uploading file:', error);
-        }
-      /*})
-      .catch((error) => {
-        console.error('Error deleting file:', error);
-      });
-    
-  }*/
 
   async uploadFile(file: File): Promise<void> {
     const filePath = `image${this.id}`;
@@ -96,14 +79,13 @@ export class AddEditRecipeComponent implements OnInit {
     if (this.file) {
       await this.uploadFile(this.file);
     }
-
     this.recipe.ingredients = this.ingredients.trim().split('\n').filter((ingredient: string) => ingredient !== '')
    
-   // console.log(this.recipe.ingredients);
-   // console.log(this.recipe);
 
     if (JSON.stringify(this.recipe) !== JSON.stringify(this.recipeEdit)) {
       this.service.updateRecipe(this.recipe.id, this.recipe).subscribe(() => {
+        this.message = "Recipe successfully updated";
+        this.showSucessMessage();
       },
         (error: any) => {
           alert(error.error);
@@ -134,21 +116,32 @@ export class AddEditRecipeComponent implements OnInit {
           alert(error.error);
           console.log(error.error);
         });
+      this.message = "Recipe successfully added";
+      this.showSucessMessage();
+      this.resetData();
     }
     else {
       this.errorMessage = "All fields must be filled in!";
       this.showErrorMessage = true;
     }
+
   }
 
   resetData() {
     this.recipe.title = "";
     this.recipe.description = "";
-    this.recipe.ingredients = "";
+    this.recipe.ingredients = [];
+    this.ingredients = "";
     this.recipe.timeToPrepare = 0;
     this.recipe.type = "";
     this.showErrorMessage = false;
   }
 
+  showSucessMessage() {
+    this.showMessage = true;
+    setTimeout(() => {
+      this.showMessage = false;
+    }, 3000);
+  }
   
 }

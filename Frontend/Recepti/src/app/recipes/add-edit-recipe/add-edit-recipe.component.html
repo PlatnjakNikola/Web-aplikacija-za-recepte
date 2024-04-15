@@ -32,8 +32,13 @@
     <button class="btn btn-outline-primary me-2 mb-1" (click)="saveChanges()" *ngIf="!add">Save changes</button>
     <button class="btn btn-outline-primary me-2 mb-1" (click)="addRecipe()" *ngIf="add">Add recipe</button>
   </div>
-
-
+</div>
+<div *ngIf="showMessage">
+  <br />
+  <br />
+  <div class="alert alert-success" role="alert">
+    {{message}}
+  </div>
 </div>
 
 
