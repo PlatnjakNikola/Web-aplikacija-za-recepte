@@ -113,7 +113,7 @@ namespace Server.Util
                             amount = amount * 28.3495;
                             unit = "g";
                         }
-                        else if (unit == "tbsp" || unit == "tablespoons" || unit == "tablespoon")
+                        /*else if (unit == "tbsp" || unit == "tablespoons" || unit == "tablespoon")
                         {
                             amount = amount * 14.7867;
                             unit = "ml";
@@ -122,7 +122,7 @@ namespace Server.Util
                         {
                             amount = amount * 4.9289;
                             unit = "ml";
-                        }
+                        }*/
                         else if (unit == "floz")
                         {
                             amount = amount * 29.5735;
