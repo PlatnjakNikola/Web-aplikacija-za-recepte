@@ -3,12 +3,11 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecipesService } from '../../services/recipes.service';
 import jsPDF from 'jspdf';
-//import * as jsPDF from 'jspdf';
 import domToImage from 'dom-to-image';
-//import moment from 'moment';
 import * as moment from 'moment';
 import html2canvas from 'html2canvas';
-import { AuthService } from 'src/app/services/auth.service'
+import { AuthService } from 'src/app/services/auth.service';
+import { RecipesListComponent } from 'src/app/recipes/recipes-list/recipes-list.component';
 
 @Component({
   selector: 'app-show-recipe',
@@ -30,6 +29,7 @@ export class ShowRecipeComponent implements OnInit {
   foundUnits: boolean = false;
 
   @ViewChild('recipe-content', { static: false }) public dataToExport!: ElementRef;
+  @ViewChild(RecipesListComponent) recipePage!: RecipesListComponent;
 
   constructor(private service: RecipesService, private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef, private authService: AuthService, private location : Location) { }
 
@@ -77,6 +77,7 @@ export class ShowRecipeComponent implements OnInit {
 
   backToHome() {
     this.location.back();
+    //this.recipePage.goBack();
   }
 
   addFavorite() {

@@ -67,6 +67,9 @@ p, i, pre {
 .link {
   color: rgb(238, 238, 238);
 }
+.link i{
+    font-size:35px;
+}
 .link:hover{
     color:black;
 }

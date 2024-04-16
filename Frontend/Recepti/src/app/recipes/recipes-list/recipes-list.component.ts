@@ -30,12 +30,14 @@ export class RecipesListComponent implements OnInit {
   favoritesList$!: Observable<any[]>;
   recipeToDelete!: any;
 
+  recipesBeforeShowing$!: Observable<any[]>;
   //Filtering
   recipesFilter: any = [];
   search: string = '';
   //typeFilter: string = '';
   filtered: boolean = false;
   recipe!: Recipe;
+  recipeType!: string;
 
   @ViewChild('loginModalCloseButton') loginModalCloseButton!: ElementRef;
   @ViewChild('deleteModalCloseButton') deleteConfirmationModal!: ElementRef;
@@ -48,9 +50,6 @@ export class RecipesListComponent implements OnInit {
   constructor(private service: RecipesService, private http: HttpClient, private router: Router, private authService: AuthService) {}
 
   async ngOnInit(): Promise<void> {
-    //const modalBackdrop = document.getElementById('staticBackdrop2');
-    this.recipesList$ = this.service.getRecipesListByFavorites();
-    this.recipesListNoFilter$ = this.service.getRecipesListByFavorites();
     if (this.authService.isLoggedIn()) {
       var user = this.authService.getUserData();
       this.id = user.id;
@@ -58,8 +57,38 @@ export class RecipesListComponent implements OnInit {
       this.login = true;
       this.admin = user.isAdmin;
     }
-    else {
+      if (this.authService.recipeListType == "favorites") {
+        this.service.getFavoriteRecipesByUserId(this.id).subscribe(
+          (response) => {
+            console.log(response);
+
+            if (response.length === 0) {
+              this.noRecipe = true;
+              this.recipesList$ = of([]);
+            }
+            else {
+              this.noRecipe = false;
+              const requests = response.map(favorite => this.service.getRecipeById(favorite.recipeId));
+              forkJoin(requests).subscribe(
+                (recipes) => {
+                  this.recipesList$ = of(recipes);
+                  this.authService.setRecipeListType("favorites", "");
+                }
+              );
+            }
+          }
+        );
+      }
+      else if (this.authService.getRecipeList()) {
+        this.recipesList$ = this.authService.getRecipeList();
+      }
+    
+    else{
+      this.recipesList$ = this.service.getRecipesListByFavorites();
+      this.recipesListNoFilter$ = this.service.getRecipesListByFavorites();
+      this.authService.setRecipeListType("normal", "");
     }
+    
   }
 
 
@@ -81,8 +110,15 @@ export class RecipesListComponent implements OnInit {
     }
   }
 
-  showRecipe(recipeId:number|string) {
+  showRecipe(recipeId: number | string) {
+    //this.recipesBeforeShowing$ = this.recipesList$;
+    console.log(this.recipesList$);
     this.router.navigate(['/recipe', recipeId]);
+    this.authService.setRecipeList(this.recipesList$);
+    /*this.recipesBeforeShowing$ = this.recipesList$.pipe(
+      map(recipes => [...recipes])
+    );*/
+    
     //this.router.navigate(['/recipe', this.admin, recipeId]);
   }
   openLoginModal() {
@@ -108,6 +144,7 @@ export class RecipesListComponent implements OnInit {
       (recipes: any) => {
         this.recipesList$ = of(recipes);
         this.noRecipe = false;
+        this.authService.setRecipeListType("search",this.search);
       },
       (error: any) => {
         if (error.status === 404) {
@@ -125,6 +162,7 @@ export class RecipesListComponent implements OnInit {
     this.search = "";
     this.showFavorite = false;
     this.noRecipe = false;
+    this.authService.setRecipeListType("normal", "");
   }
 
   onLoginSuccess(user: any) {
@@ -162,6 +200,7 @@ export class RecipesListComponent implements OnInit {
           forkJoin(requests).subscribe(
             (recipes) => {
               this.recipesList$ = of(recipes);
+              this.authService.setRecipeListType("favorites", "");
             }
             );
         }
@@ -171,6 +210,14 @@ export class RecipesListComponent implements OnInit {
 
   setRecipeToDelete(recipe:any) {
     this.recipeToDelete = recipe;
+  }
+
+  goBack() {
+    /*if (this.recipesBeforeShowing$) {
+      this.recipesList$ = this.recipesBeforeShowing$;
+    }*/
+    this.recipesList$ = this.authService.getRecipeList();
+    console.log(this.recipesList$);
   }
 
   closeModal() {

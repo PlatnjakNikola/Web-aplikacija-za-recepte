@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { RecipesService } from 'src/app/services/recipes.service'
 import { FormControl, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 
 interface LoginResponseSuccess {
@@ -25,7 +26,7 @@ type LoginResponse = LoginResponseSuccess | LoginResponseError;
   styleUrls: ['./login-register.component.css']
 })
 
-export class LoginRegisterComponent {
+export class LoginRegisterComponent implements OnInit{
   username: string = "";
   email: string = "";
   password: string = "";
@@ -34,10 +35,15 @@ export class LoginRegisterComponent {
   usernameOrEmail: string = "";
   showErrorMessage: boolean = false;
   errorMessage: string = "";
+  usersInDatabase!: Observable<any[]>;
 
   @Output() loginSuccess: EventEmitter<LoginResponseSuccess> = new EventEmitter<LoginResponseSuccess>();
 
   constructor(private service: RecipesService) { }
+
+  async ngOnInit() {
+    this.usersInDatabase = await this.service.getUsersList();
+  }
 
   showRegister() {
     this.loginPage = false;
@@ -49,6 +55,7 @@ export class LoginRegisterComponent {
     this.loginPage = true;
     this.email = "";
     this.password = "";
+    this.resetData();
   }
 
   login() {
@@ -91,21 +98,38 @@ export class LoginRegisterComponent {
     ]);
 
     if (this.confirm_password === this.password && this.username !== "" && this.email !== "" && this.password !== "") {
-      var user = {
-        username: this.username,
-        email: this.email,
-        password: this.password,
-        isAdmin: false
+      const users = await this.service.getUsersList().toPromise();
+      if (users) {
+        const existingUserByUsername = users.find(user => user.username === this.username);
+        const existingUserByEmail = users.find(user => user.email === this.email);
 
+        if (existingUserByUsername) {
+          this.errorMessage = "Username already exists";
+          this.showErrorMessage = true;
+        }
+        else if (existingUserByEmail) {
+          this.errorMessage = "Email already exists";
+          this.showErrorMessage = true;
+        }
+        else {
+          var user = {
+            username: this.username,
+            email: this.email,
+            password: this.password,
+            isAdmin: false
+
+          }
+          console.log(user);
+          await this.service.addUser(user).subscribe(() => {
+            this.resetData();
+          },
+            (error: any) => {
+              alert(error.error);
+            });
+        }
       }
-      console.log(user);
-      await this.service.addUser(user).subscribe(() => {
-        this.resetData();
-      },
-        (error: any) => {
-          alert(error.error);
-        });
-    }
+      }
+      
     else if (this.username !== "" || this.email !== "" || this.password !== "" || this.confirm_password !== "") {
       this.errorMessage = "All fields must be filled in.";
       this.showErrorMessage = true;
@@ -117,8 +141,9 @@ export class LoginRegisterComponent {
     else if (!emailFormControl.valid) {
       this.errorMessage = "Invalid email";
       this.showErrorMessage = true;
-    }
-  }
+      }
+ }
+
 
   resetData() {
     this.loginPage = true;
