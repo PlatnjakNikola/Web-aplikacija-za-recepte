@@ -68,8 +68,6 @@ export class ShowRecipeComponent implements OnInit {
 
 
   formateText(originalArray: any[]): any {
-    /*const ingredientsArray = originalString.split(', ');
-    const formattedString = ingredientsArray.join(',\n');*/
     const ingredientsArray = originalArray.map(obj => obj.toString());
     const formattedString = ingredientsArray.join(',\n');
     return formattedString;
@@ -77,7 +75,6 @@ export class ShowRecipeComponent implements OnInit {
 
   backToHome() {
     this.location.back();
-    //this.recipePage.goBack();
   }
 
   addFavorite() {

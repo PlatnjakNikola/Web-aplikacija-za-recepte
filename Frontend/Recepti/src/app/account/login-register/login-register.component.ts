@@ -78,7 +78,6 @@ export class LoginRegisterComponent implements OnInit{
           }
         },
         (error) => {
-          // Greška prilikom komunikacije s serverom
           this.errorMessage = "Invalid username or password. Please try again.";
           this.showErrorMessage = true;
           console.error('Došlo je do greške prilikom prijave:', error);

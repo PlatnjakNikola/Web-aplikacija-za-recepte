@@ -150,23 +150,3 @@ pre {
 .content[_ngcontent-ng-c2616692150] {
   padding-top: 0px;
 }
-  /*.editText {
-  padding: 6px;
-  border: 1px solid #ccc;
-  background: none;
-  border: none;
-  text-align: center;
-  font-weight: 400;
-  height: auto;
-  width: 100%;
-  resize: none;
-  overflow: hidden;
-}
-.editText:focus-visible{
-    box-shadow:0;
-    outline:none;
-}
-
-.row{
-    position:relative;
-}*/

@@ -18,14 +18,6 @@
   //border: 2px solid rgba(0, 0, 0, 0.355);
   border: 0.125rem solid rgba(0, 0, 0, 0.355);
 }
-/*.btn-icon {
-  //height: 38px;
-  height: 2375rem;
-  //width: 50px;
-  width: 3125rem;
-  color: black;
-  padding: 0px;
-}*/
 
 .navbar {
   position: absolute;
@@ -117,11 +109,6 @@ img {
     font-family:'Bodoni MT';
     font-style:italic;
 }
-/*@media screen and (min-width: 2500px) {
-  .container{
-      max-width:2500px
-  }
-}*/
 .myModal {
   position: fixed;
   top: 0;
